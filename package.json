@@ -2,8 +2,13 @@
   "name": "pals",
   "version": "0.1.0",
   "private": true,
+  "main": "server/index.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "massive": "^5.2.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
@@ -18,8 +23,22 @@
     "eject": "react-scripts eject"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
-  "main": "index.js",
   "devDependencies": {},
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "nodemonConfig": {
+    "ext": "js,sql",
+    "ignore": [
+      "src/*",
+      "public/*"
+    ]
+  },
+  "proxy": {
+    "/auth/callback": {
+      "target": "http://localhost:4001"
+    },
+    "/api": {
+      "target": "http://localhost:4001"
+    }
+  }
 }
