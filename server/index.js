@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const massive = require('massive')
+const IC = require('./controllers/controller')
 require('dotenv').config()
 
 const app = express()
@@ -17,6 +18,7 @@ massive(process.env.CONNECTION_STRING).then(db => {
 app.use(bodyParser.json())
 
 //API Endpoints
+app.get('/api/incidents', IC.getIncidents)
 
 app.listen(SERVER_PORT, ()=>{
     console.log("listening on port:", SERVER_PORT)

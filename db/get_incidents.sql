@@ -1,0 +1,1 @@
+SELECT * FROM incident_data_subset;
