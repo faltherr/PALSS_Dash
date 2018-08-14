@@ -22,7 +22,9 @@ export function getEvents(){
 }
 
 export function createEvent(props) {
-    const request = axios.post(`${API_root}incidents/new`, props)
+    const url = API_root + 'incidents/new'
+    const request = axios.post(url, props)
+    console.log(55555555555555, props)
 
     return{
         type: CREATE_EVENT,

@@ -31,15 +31,15 @@ export default function reducer(state=initialState, action){
             }
         
         //Create new event
-        case GET_EVENTS + PENDING:
+        case CREATE_EVENT + PENDING:
             return {...state};
-        case GET_EVENTS + FULFILLED:
+        case CREATE_EVENT + FULFILLED:
             return{
                 ...state,
                 events: action.payload.data,
                 errorMessage:''
             }
-        case GET_EVENTS + REJECTED:
+        case CREATE_EVENT + REJECTED:
             return{
                 ...state,
                 events: [],

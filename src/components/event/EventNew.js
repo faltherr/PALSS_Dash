@@ -1,28 +1,32 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
+import {createEvent} from '../../Actions/api_index'
+import {connect} from 'react-redux'
 
-let submit = (values) =>{
-    console.log('Submit form values:', values)
-}
+// let submit = (values) =>{
+//     console.log('Submit form values:', values)
+// }
 
 let EventFormFunc = props => {
         // Configuration objects
-        const {fields: {eventdate,
+        const {eventdate,
                          tabldg,
                          jobtitle,
                          factors1,
                          factors2, 
                          bodyparts, 
-                         description},
-                         handleSubmit} = props
-        
-        // console.log(11111, tabldg)
-        // console.log(1111111, submit)
-        console.log(Field)
+                         description} = props.fields
 
+        const {handleSubmit} = props
+        
+        console.log(11111, tabldg)
+        // console.log(1111111, submit)
+
+        console.log(7438734834387, createEvent)
+        console.log('Props', props)
 
         return(
-            <form onSubmit={handleSubmit(submit)}>
+            <form onSubmit={handleSubmit(createEvent)}>
                 <h3> Record a New Incident </h3>
                 <div className='form-group'>
                 <label>Date </label>
@@ -66,7 +70,16 @@ let EventFormFunc = props => {
         )
     }
 
-const EventForm = reduxForm({
+// function validate (values){
+//     const errors = {};
+//     if (!values.tabldg){
+//         errors.tabldg = 'Enter a Technical Area and Building'
+//     }
+//     return errors;
+// }
+
+let connectedForm  = connect(null, {createEvent})(EventFormFunc)
+let EventForm = reduxForm({
     //Name the form
     form: 'EventNew',
     //Declare the fields that the form will contain
@@ -77,6 +90,7 @@ const EventForm = reduxForm({
             'factors2', 
             'bodyparts', 
             'description']
-}) (EventFormFunc)
+})(connectedForm)
+
 
 export default EventForm

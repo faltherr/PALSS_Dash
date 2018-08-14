@@ -13,8 +13,8 @@ module.exports = {
     },
     newIncident: (req, res) => {
         let db = req.app.get('db')
-        let {Date, TABuilding, JobTitle, Factors1, Factors2, BodyParts, Description} = req.body
-        let newEvent = {Date, TABuilding, JobTitle, Factors1, Factors2, BodyParts, Description}
+        let {eventdate, tabldg, jobtitle, factors1, factors2, bodyparts, description} = req.body
+        let newEvent = {eventdate, tabldg, jobtitle, factors1, factors2, bodyparts, description}
         let events = db.create_incident(newEvent)
         let event = events[0]
         res.status(200).send(event)
