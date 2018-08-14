@@ -10,7 +10,7 @@ class IncidentTable extends Component {
     }
 
     render(){
-        console.log(this.props)
+        // console.log(this.props)
         // this.props.event.map
         return(
             <div>
@@ -22,7 +22,7 @@ class IncidentTable extends Component {
 
 function mapStateToProps (state) {
     return {
-        events: state.events
+        events: state.reducer.events
     }
 }
 

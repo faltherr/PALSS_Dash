@@ -3,6 +3,7 @@ import axios from 'axios'
 const API_root = 'http://localhost:4001/api/'
 
 export const GET_EVENTS = "GET_EVENTS"
+export const CREATE_EVENT = "CREATE_EVENTS"
 // export const GET_EVENTS_FULFILLED = "GET_EVENTS_FULFILLED"
 // export const GET_EVENTS_PENDING = "GET_EVENTS_PENDING"
 // export const GET_EVENTS_REJECTED = "GET_EVENTS_REJECTED"
@@ -16,6 +17,15 @@ export function getEvents(){
 
     return{
         type: GET_EVENTS,
+        payload: request
+    }
+}
+
+export function createEvent(props) {
+    const request = axios.post(`${API_root}incidents/new`, props)
+
+    return{
+        type: CREATE_EVENT,
         payload: request
     }
 }
