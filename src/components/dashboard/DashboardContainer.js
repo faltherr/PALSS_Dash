@@ -16,6 +16,7 @@ export default class DashboardContainer extends Component {
                     </Link>
                 </div>
                 <SimpleMap/>
+                <br/>
                 <IncidentTable />
             </div>
         )
