@@ -19,8 +19,8 @@ module.exports = {
     updateIncident: (req, res) => {
         let db = req.app.get('db')
         const {id} = req.params
-        const {Description} = req.body
-        db.update_incident([Description, id]).then(response =>{
+        const {TABuilding, JobTitle, Factors1, Factors2, BodyParts, Description} = req.body
+        db.update_incident([TABuilding, JobTitle, Factors1, Factors2, BodyParts, Description, id]).then(response =>{
             res.status(200).send(response)
         })
     },

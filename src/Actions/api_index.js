@@ -5,6 +5,7 @@ const API_root = 'http://localhost:4001/api/'
 export const GET_EVENTS = "GET_EVENTS"
 export const CREATE_EVENT = "CREATE_EVENTS"
 export const DELETE_EVENT = "DELETE_EVENT"
+export const EDIT_EVENT = "EDIT_EVENT"
 
 //Read all events
 
@@ -42,3 +43,16 @@ export function deleteEvent (id){
         payload: request
     }
 }
+
+// Edit an event
+
+export function editEvent (id){
+    const url = API_root + `incidents/${id}`
+    const request = axios.put(url)
+
+    return{
+        type: EDIT_EVENT,
+        payload: request
+    }
+}
+
