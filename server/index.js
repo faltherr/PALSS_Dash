@@ -20,6 +20,8 @@ app.use(bodyParser.json())
 //API Endpoints
 app.get('/api/incidents', IC.getIncidents)
 app.post('/api/incidents/new', IC.newIncident)
+app.put('/api/incidents/:id', IC.updateIncident)
+app.delete('/api/incidents/:id', IC.deleteIncident)
 
 app.listen(SERVER_PORT, ()=>{
     console.log("listening on port:", SERVER_PORT)

@@ -30,7 +30,7 @@ let EventFormFunc = props => {
                 <h3> Record a New Incident </h3>
                 <div className='form-group'>
                 <label>Date </label>
-                <Field name="eventdate" type="text" className="form-control" component="input" {...eventdate}/> 
+                <Field name="eventdate" type="text" className="form-control" component="input" {...eventdate} autocomplete="none"/> 
                 </div>
 
                 <div className='form-group'>
