@@ -5,19 +5,23 @@ import SimpleMap from './Map';
 
 export default class DashboardContainer extends Component {
 
-    
-    render() {        
+
+    render() {
         return (
-            <div>
+            <div className="main-dashboard-container">
                 Dashboard Container
                 <div>
                     <Link to='/newevent'>
                         <button> Add a New Incident </button>
                     </Link>
                 </div>
-                <SimpleMap/>
-                <br/>
-                <IncidentTable />
+                <div className="map-wrapper">
+                    <SimpleMap />
+                </div>
+                <br />
+                <div className='table-wrapper'>
+                    <IncidentTable />
+                </div>
             </div>
         )
     }

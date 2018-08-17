@@ -4,9 +4,7 @@ const API_root = 'http://localhost:4001/api/'
 
 export const GET_EVENTS = "GET_EVENTS"
 export const CREATE_EVENT = "CREATE_EVENTS"
-// export const GET_EVENTS_FULFILLED = "GET_EVENTS_FULFILLED"
-// export const GET_EVENTS_PENDING = "GET_EVENTS_PENDING"
-// export const GET_EVENTS_REJECTED = "GET_EVENTS_REJECTED"
+export const DELETE_EVENT = "DELETE_EVENT"
 
 //Read all events
 
@@ -21,13 +19,26 @@ export function getEvents(){
     }
 }
 
+// Create an event
+
 export function createEvent(props) {
     const url = API_root + 'incidents/new'
     const request = axios.post(url, props)
-    console.log(55555555555555, props)
 
     return{
         type: CREATE_EVENT,
+        payload: request
+    }
+}
+
+// Delete an event
+
+export function deleteEvent (id){
+    const url = API_root + `incidents/${id}`
+    const request = axios.delete(url)
+
+    return{
+        type: DELETE_EVENT,
         payload: request
     }
 }
