@@ -32,25 +32,11 @@ class SimpleMap extends Component {
         this.props.deleteEvent(id, props)
     }
 
-    // closeAndEdit = (id, props) => {
-    //     console.log('sdlkfslhflk')
-    //     this.onCloseModal();
-    //     this.props.editEvent(id, props)
-    // }
-
-
-    // Commented this out because it was holding up the form submission
-
-    // handleSubmit = (e, id) => {
-    //     e.preventDefault();
-    //     const formData = {};
-    //     for (const field in this.refs) {
-    //       formData[field] = this.refs[field].value;
-    //     }
-    //     // console.log(formData)
-    //     this.onCloseModal();
-    //     this.props.editEvent(id, formData)
-    // }
+    closeAndEdit = (id, props) => {
+        console.log('sdlkfslhflk')
+        this.onCloseModal();
+        this.props.editEvent(id, props)
+    }
 
     handleSubmit = (event, id) => {
         event.preventDefault();
@@ -66,7 +52,7 @@ class SimpleMap extends Component {
 
         const { openedit, opendelete } = this.state
         return events.map(event => {
-            let { latitude: lat, longitude: lon, id, date, tabuilding, description, jobtitle, factors1, factors2, bodyparts } = event
+            let { latitude: lat, longitude: lon, id, date, tabuilding} = event
             return lat && lon &&
                 <Marker position={[lat, lon]} key={id}>
                     <Popup>
@@ -79,46 +65,10 @@ class SimpleMap extends Component {
                         <button onClick={() => this.onOpenModal('edit')}>Edit</button>
                         <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
                             <div className="edit-form">
-                                <EditEvent/>
-                                {/* <form onSubmit={this.handleSubmit}>
-                                    <h2>Edit the Incident </h2>
-                                    <p> Incident ID: {id} </p>
-
-                                    TA-Building (Example: 43-0200)
-                                <br />
-                                    <input value={tabuilding} ref="tabuilding" className="tabuilding" type='text' name='tabuilding' />
-                                    <br />
-
-                                    Job Title
-                                <br />
-                                    <input value={jobtitle} ref="jobtitle" className="jobtitle" type='text' name='jobtitle' />
-                                    <br />
-
-                                    Primary Factors
-                                <br />
-                                    <input value={factors1} ref="factors1" className="factors1" type='text' name='factors1' />
-                                    <br />
-
-                                    Secondary Factors
-                                <br />
-                                    <input value={factors2} ref="factors2" className="factors2" type='text' name='factors2' />
-                                    <br />
-
-                                    Body Parts
-                                <br />
-                                    <input value={bodyparts} ref="bodyparts" className="bodyparts" type='text' name='bodyparts' />
-                                    <br />
-
-                                    Description
-                                <br />
-                                    <input value={description} ref="description" className="description" type='text' name='description' />
-                                    <br />
-
-                                    <input type="submit" value="Confirm Changes and Submit" />
-
-                                </form> */}
+                                <EditEvent id ={id} closeModal = {this.onCloseModal}/>
                             </div>
                         </Modal>
+
                         <button onClick={() => this.onOpenModal('delete')}>Delete</button>
                         <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
                             <h2>Are you sure you want to delete this incident?</h2>
@@ -141,25 +91,6 @@ class SimpleMap extends Component {
 
         const map_position = [this.state.lat, this.state.lng];
 
-        // const { open } = this.state
-
-        // console.log("Props accessible in map component", this.props, map_position)
-
-        // const LeafletMarkers = this.props.event.map((element) => {
-        //     let { latitude: lat, longitude: lon, id, date, tabuilding } = element
-        //     return (
-        //         lat && lon && <CircleMarker key={id} center={[lat, lon]} fillColor="blue" fill="true" radius={8}>
-        //             <Popup>
-        //                 <span> Date: {date} </span>
-        //                 <br />
-        //                 <span> Location: {tabuilding} </span>
-        //             </Popup>
-        //         </CircleMarker>
-        //     )
-        // })
-
-        //
-
         const createClusterCustomIcon = function (cluster) {
             return L.divIcon({
                 html: `<span>${cluster.getChildCount()}</span>`,
@@ -167,12 +98,6 @@ class SimpleMap extends Component {
                 iconSize: L.point(40, 40, true),
             });
         };
-
-        //
-
-        // console.log(47837374834783, markers)
-
-
 
         return (
             <div id="container">
