@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, Popup, Marker } from 'react-leaflet'
 import { connect } from 'react-redux'
-import {deleteEvent, editEvent} from '../../Actions/api_index'
+import { deleteEvent, editEvent } from '../../Actions/api_index'
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import L from 'leaflet'
-import Modal from 'react-responsive-modal'; 
-
+import Modal from 'react-responsive-modal';
+import EditEvent from './EditForm'
 
 class SimpleMap extends Component {
     constructor() {
@@ -27,27 +27,43 @@ class SimpleMap extends Component {
         this.setState({ [`open${type}`]: false });
     };
 
-    closeAndDelete = (id) => {
+    closeAndDelete = (id, props) => {
         this.onCloseModal();
-        this.props.deleteEvent(id)
+        this.props.deleteEvent(id, props)
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = {};
-        for (const field in this.refs) {
-          formData[field] = this.refs[field].value;
-        }
-        console.log('-->', formData);
+    // closeAndEdit = (id, props) => {
+    //     console.log('sdlkfslhflk')
+    //     this.onCloseModal();
+    //     this.props.editEvent(id, props)
+    // }
+
+
+    // Commented this out because it was holding up the form submission
+
+    // handleSubmit = (e, id) => {
+    //     e.preventDefault();
+    //     const formData = {};
+    //     for (const field in this.refs) {
+    //       formData[field] = this.refs[field].value;
+    //     }
+    //     // console.log(formData)
+    //     this.onCloseModal();
+    //     this.props.editEvent(id, formData)
+    // }
+
+    handleSubmit = (event, id) => {
+        event.preventDefault();
+        const data = new FormData(event.target);
+
+        this.closeAndDelete(id, data)
     }
 
-    closeAndEdit = (id) => {
-        // console.log('sdlkfslhflk')
-        this.onCloseModal();
-        this.props.editEvent(id)
-    }
+
+
 
     createMarkers(events) {
+
         const { openedit, opendelete } = this.state
         return events.map(event => {
             let { latitude: lat, longitude: lon, id, date, tabuilding, description, jobtitle, factors1, factors2, bodyparts } = event
@@ -61,53 +77,53 @@ class SimpleMap extends Component {
                         <span> Location: {tabuilding} </span>
                         <br />
                         <button onClick={() => this.onOpenModal('edit')}>Edit</button>
-                            <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
-                                <div>
-                                <form onSubmit = {this.handleSubmit}>
-                                <h2>Edit the Incident </h2>
-                                <p> Incident ID: {id} </p>
+                        <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
+                            <div className="edit-form">
+                                <EditEvent/>
+                                {/* <form onSubmit={this.handleSubmit}>
+                                    <h2>Edit the Incident </h2>
+                                    <p> Incident ID: {id} </p>
 
-                                TA-Building (Example: 43-0200)
-                                <br/>
-                                <input value = {tabuilding} ref="tabuilding" className="tabuilding" type='text' name='tabuilding'/>
-                                <br/>
+                                    TA-Building (Example: 43-0200)
+                                <br />
+                                    <input value={tabuilding} ref="tabuilding" className="tabuilding" type='text' name='tabuilding' />
+                                    <br />
 
-                                 Job Title
-                                <br/>
-                                <input value = {jobtitle} ref="jobtitle" className="jobtitle" type='text' name='jobtitle' />
-                                <br/>
+                                    Job Title
+                                <br />
+                                    <input value={jobtitle} ref="jobtitle" className="jobtitle" type='text' name='jobtitle' />
+                                    <br />
 
-                                Primary Factors
-                                <br/>
-                                <input value = {factors1} ref="factors1" className="factors1" type='text' name='factors1'/>
-                                <br/>
+                                    Primary Factors
+                                <br />
+                                    <input value={factors1} ref="factors1" className="factors1" type='text' name='factors1' />
+                                    <br />
 
-                                Secondary Factors
-                                <br/>
-                                <input value = {factors2} ref="factors2" className="factors2" type='text' name='factors2' />
-                                <br/>
+                                    Secondary Factors
+                                <br />
+                                    <input value={factors2} ref="factors2" className="factors2" type='text' name='factors2' />
+                                    <br />
 
-                                Body Parts
-                                <br/>
-                                <input value = {bodyparts} ref="bodyparts" className="bodyparts" type='text' name='bodyparts'/>
-                                <br/>
+                                    Body Parts
+                                <br />
+                                    <input value={bodyparts} ref="bodyparts" className="bodyparts" type='text' name='bodyparts' />
+                                    <br />
 
-                                Description
-                                <br/>
-                                <input value = {description} ref="description" className="description" type='text' name='description' />
-                                <br/>
+                                    Description
+                                <br />
+                                    <input value={description} ref="description" className="description" type='text' name='description' />
+                                    <br />
 
-                                <input type="submit" value="Confirm Changes and Submit"/>
-                                {/* <button onClick={() => {this.closeAndEdit(id)}} > Confirm changes </button> */}
-                                
-                                </form>
-                                </div>
-                            </Modal>
+                                    <input type="submit" value="Confirm Changes and Submit" />
+
+                                </form> */}
+                            </div>
+                        </Modal>
                         <button onClick={() => this.onOpenModal('delete')}>Delete</button>
-                            <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
-                                    <h2>Are you sure you want to delete this incident?</h2>
-                                    <button onClick ={()=> {this.closeAndDelete(id)}} > Confirm and delete </button> 
-                            </Modal>            
+                        <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
+                            <h2>Are you sure you want to delete this incident?</h2>
+                            <button onClick={() => { this.closeAndDelete(id) }} > Confirm and delete </button>
+                        </Modal>
                     </Popup>
                 </Marker>
         })
@@ -189,4 +205,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {deleteEvent, editEvent})(SimpleMap)
+export default connect(mapStateToProps, { deleteEvent, editEvent })(SimpleMap)

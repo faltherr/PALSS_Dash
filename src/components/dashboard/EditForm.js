@@ -1,13 +1,13 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
-import {createEvent} from '../../Actions/api_index'
+import {editEvent} from '../../Actions/api_index'
 import {connect} from 'react-redux'
 
 // let submit = (values) =>{
 //     console.log('Submit form values:', values)
 // }
 
-let EventFormFunc = props => {
+let EditEventFormFunc = props => {
         // Configuration objects
         const {eventdate,
                          tabldg,
@@ -22,15 +22,16 @@ let EventFormFunc = props => {
         // console.log(11111, tabldg)
         // console.log(1111111, submit)
 
-        // console.log(7438734834387, createEvent)
-        // console.log('Props', props)
+        // console.log(7438734834387, editEvent)
+        // console.log('Props', this.props)
+        // console.log("THIS PROPS " , props.events)
 
         return(
-            <form onSubmit={handleSubmit(createEvent)}>
-                <h3> Record a New Incident </h3>
+            <form onSubmit={handleSubmit(() => editEvent(props.id))}>
+                <h3> Update this incident </h3>
                 <div className='form-group'>
                 <label>Date </label>
-                <Field name="eventdate" type="text" className="form-control" component="input" {...eventdate} autoComplete="none"/> 
+                <Field name="eventdate" type="text" className="form-control" component="input" {...eventdate} autoComplete="none" placeholder='YYYY-MM-DD'/> 
                 </div>
 
                 <div className='form-group'>
@@ -78,10 +79,16 @@ let EventFormFunc = props => {
 //     return errors;
 // }
 
-let connectedForm  = connect(null, {createEvent})(EventFormFunc)
-let EventForm = reduxForm({
+function mapStateToProps(state) {
+    return {
+        events: state.reducer.events
+    }
+}
+
+let connectedForm  = connect(mapStateToProps, {editEvent})(EditEventFormFunc)
+let EditEventForm = reduxForm({
     //Name the form
-    form: 'EventNew',
+    form: 'EditEvent',
     //Declare the fields that the form will contain
     fields:['eventdate', 
             'tabldg',
@@ -93,4 +100,4 @@ let EventForm = reduxForm({
 })(connectedForm)
 
 
-export default EventForm
+export default EditEventForm

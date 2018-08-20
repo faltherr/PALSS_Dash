@@ -46,9 +46,9 @@ export function deleteEvent (id){
 
 // Edit an event
 
-export function editEvent (id){
+export function editEvent (id, props){
     const url = API_root + `incidents/${id}`
-    const request = axios.put(url)
+    const request = axios.put(url, props)
 
     return{
         type: EDIT_EVENT,
