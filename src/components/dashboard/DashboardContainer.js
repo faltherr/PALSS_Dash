@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import IncidentTable from './IncidentTable'
 import SimpleMap from './Map';
+import WeatherForecast from './Forecast'
 
 export default class DashboardContainer extends Component {
 
@@ -15,6 +16,10 @@ export default class DashboardContainer extends Component {
                         <button> Add a New Incident </button>
                     </Link>
                 </div>
+                <div className='forecast-container'>
+                    <WeatherForecast/>
+                </div>
+
                 <div className="map-wrapper">
                     <SimpleMap />
                 </div>

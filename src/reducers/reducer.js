@@ -6,6 +6,7 @@ import { FETCH_WEATHER } from '../Actions/weather_fetcher'
 let initialState = {
     //Events is an array that contains all of the events
     events: [],
+    errorMessage: '',
     //singleEvent will hold the currently selected event
     singleEvent: null,
     latitude: '',
@@ -116,7 +117,7 @@ export default function reducer(state = initialState, action) {
         case FETCH_WEATHER + REJECTED:
             return {
                 ...state,
-                events: [],
+                forecast: [],
                 errorMessage: action.payload
             }
 

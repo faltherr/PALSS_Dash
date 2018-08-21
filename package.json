@@ -18,6 +18,7 @@
     "react-dom": "^16.4.2",
     "react-leaflet": "^2.0.1",
     "react-leaflet-markercluster": "^2.0.0-rc3",
+    "react-loading-animation": "^1.4.0",
     "react-redux": "^5.0.7",
     "react-responsive-modal": "^3.2.0",
     "react-router": "^4.3.1",
