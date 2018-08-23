@@ -34,6 +34,7 @@ const REJECTED = '_REJECTED'
 // const ADD_BODYPARTS = 'ADD_BODYPARTS'
 
 export default function reducer(state = initialState, action) {
+    console.log('The action', action.type)
     switch (action.type) {
 
         //API Endpoint Events
@@ -110,7 +111,7 @@ export default function reducer(state = initialState, action) {
         case FETCH_WEATHER + FULFILLED:
             return {
                 ...state,
-                forecast: action.payload.data,
+                forecast: action.payload.data.list,
                 errorMessage: ''
             }
 

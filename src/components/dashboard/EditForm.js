@@ -13,7 +13,7 @@ class EditEventFormFunc extends Component {
         console.log('Does ID exist', this.props.id)
         // this.props.signup(formProps)
 
-        editEvent(this.props.id,formProps)
+        this.props.editEvent(this.props.id,formProps)
         
     }
     render (){

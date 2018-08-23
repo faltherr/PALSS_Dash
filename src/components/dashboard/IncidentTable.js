@@ -46,7 +46,6 @@ class IncidentTable extends Component {
                     <TableHeaderColumn width='150' dataField='date' dataSort={ true }> Date </TableHeaderColumn>
                     <TableHeaderColumn width='150' dataField='tabuilding' dataSort={ true }> TA-BLDG </TableHeaderColumn>
                     <TableHeaderColumn width='150' dataField='factors1'> Primary Factors </TableHeaderColumn>
-                    <TableHeaderColumn width='150' dataField='factors2'> Secondary Factors </TableHeaderColumn>
                     <TableHeaderColumn width='150' dataField='jobtitle'> Job Title </TableHeaderColumn>
                     <TableHeaderColumn width='150' dataField='description'> Description </TableHeaderColumn>
                     {/* <TableHeaderColumn width='150' dataField='button' dataFormat={this.buttonFormatter}/>  */}

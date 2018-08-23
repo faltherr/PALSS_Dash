@@ -1,3 +1,6 @@
-DELETE FROM incident_data_subset
+DELETE FROM events
 WHERE id = $1;
-SELECT * FROM incident_data_subset;
+
+SELECT *
+FROM building_data3 P
+    INNER JOIN events C ON C.TABuilding = P.TABuilding;
