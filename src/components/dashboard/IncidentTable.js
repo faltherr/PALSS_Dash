@@ -15,6 +15,7 @@ class IncidentTable extends Component {
     
     componentDidMount(){
         this.props.getEvents()
+        
     }
 
     // onOpenModal = () => {

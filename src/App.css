@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+/* #container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 800px;
+  height: 800px;
+  background-color: #fff;
+} */
+
 html, body {
   margin:0;
   padding:0;
@@ -143,6 +153,16 @@ hr {
   height: 100%;
   width: 20%;
   background-color: grey;
+}
+
+#container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 800px;
+  height: 800px;
+  background-color: #fff;
 }
 
 .map-graph-wrapper{

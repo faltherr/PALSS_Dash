@@ -49,7 +49,7 @@ class SimpleMap extends Component {
 
 
     createMarkers(events) {
-
+        
         const { openedit, opendelete } = this.state
         return events.map(event => {
             let { latitude: lat, longitude: lon, id, date, tabuilding} = event

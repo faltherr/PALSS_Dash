@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import IncidentTable from './IncidentTable'
 import SimpleMap from './Map';
 import WeatherForecast from './Forecast'
-import DonutChart from './DonutChart'
+// import DonutChart from './DonutChart'
+import StackedBarChart from './StackedBar'
 
 export default class DashboardContainer extends Component {
 
@@ -27,8 +28,7 @@ export default class DashboardContainer extends Component {
                     </div>
 
                     <div className='event-counter'>
-                    Event counter
-                    <DonutChart />
+                        <StackedBarChart id="container"/>
                     </div>
 
                 </div>

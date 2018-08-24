@@ -24,6 +24,15 @@ data_to_write <- no_bldg_na[no_bldg_na$ta_bldg %in% buildings$ta_building, ]
 write_csv(data_to_write, "stf_data.csv")
 
 # New json dataset to fiddle with
-install.packages(rjson)
-read_csv("stf_data.csv")
+# install.packages('rjson')
+install.packages('jsonlite')
+# library(rjson)
+library(jsonlite)
+data_demo <- read_csv("stf_data.csv")
+data_demo_subset <- data_demo[1:200,]
 
+jsonData <- toJSON(data_demo_subset, pretty=TRUE, flatten=TRUE, auto_unbox=TRUE)
+cat(jsonData)
+write_json(jsonData, "jsonSubset.json")
+
+?rjson
