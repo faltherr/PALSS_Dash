@@ -1,5 +1,5 @@
 UPDATE events
-SET TABuilding=$1, JobTitle=$2, Factors1=$3, Factors2 =$4, BodyParts = $5, Description = $6 WHERE id = $7;
+SET TABuilding=$1, JobTitle=$2, Factors1=$3, BodyParts = $4, Description = $5 WHERE id = $6;
 
 SELECT *
 FROM building_data3 P

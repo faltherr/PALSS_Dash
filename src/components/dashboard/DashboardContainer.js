@@ -5,6 +5,7 @@ import SimpleMap from './Map';
 import WeatherForecast from './Forecast'
 // import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
+// import LineChart from './TimeSeries'
 
 export default class DashboardContainer extends Component {
 
@@ -39,7 +40,7 @@ export default class DashboardContainer extends Component {
                     </div>
 
                     <div className='time-series-graph'>
-                    Time series graph
+                        {/* <LineChart/> */}
                     </div>
                 </div>
 

@@ -57,16 +57,6 @@ class EditEventFormFunc extends Component {
             </fieldset>
 
             <fieldset>
-                <label> Secondary Factors </label>
-                <Field
-                name="Factors2"
-                type="text"
-                component="input"
-                autoComplete="none"
-                />
-            </fieldset>
-
-            <fieldset>
                 <label> Body Parts </label>
                 <Field
                 name="BodyParts"

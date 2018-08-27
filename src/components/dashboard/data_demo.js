@@ -2,7 +2,7 @@
 // import { connect } from 'react-redux'
 // import data from './Data_subset'
 var _ = require('lodash');
-// import * as d3 from "d3"
+import * as d3 from "d3"
 
 // class DataDemo extends Component{
 
@@ -336,53 +336,117 @@ var incidentSummaryArray = []
 
 
 
+
+
 // Codys solution
 
-let monthYear = data2.map(data => {
-    let date = data['Incident Date'].split('/')
-    date.splice(1, 1)
-    data.month = +date[0]
-    data.year = +date[1]
-    data['Incident Date'] = date.join('/')
-    return data
-})
-let sorted = _.sortBy(monthYear, ['year', 'month'])
-sorted = _.groupBy(sorted, o => o['Incident Date'])
+// let monthYear = data2.map(data => {
+//     let date = data['Incident Date'].split('/')
+//     date.splice(1, 1)
+//     data.month = +date[0]
+//     data.year = +date[1]
+//     data['Incident Date'] = date.join('/')
+//     return data
+// })
+// let sorted = _.sortBy(monthYear, ['year', 'month'])
+// sorted = _.groupBy(sorted, o => o['Incident Date'])
     
-console.log(sorted)
+// // console.log(sorted)
 
 
-let data3 = []
+// let data3 = []
 
-for (prop in sorted) {
-    let object = {
-        Date: prop,    
-        'Repetitive Motion': 0,
-        'Slip/Trip/Fall': 0,
-        'Voluntary Motions': 0,
-        'Contact': 0,
-        'Struck against/By': 0,
-        'Lift/Push/Pull': 0,
-        'Caught In, On, Under Or Between': 0,
-        'Bite or sting': 0,
-        'Allergic/bodily Reaction': 0,
-        'Exposure': 0,
-        'Training / Qualification': 0,
-        'Involuntary Motions': 0,
-        'Motor Vehicle Accident': 0,
-        'Hearing Loss/STS': 0
-        }
+// for (prop in sorted) {
+//     let object = {
+//         Date: prop,    
+//         'Repetitive Motion': 0,
+//         'Slip/Trip/Fall': 0,
+//         'Voluntary Motions': 0,
+//         'Contact': 0,
+//         'Struck against/By': 0,
+//         'Lift/Push/Pull': 0,
+//         'Caught In, On, Under Or Between': 0,
+//         'Bite or sting': 0,
+//         'Allergic/bodily Reaction': 0,
+//         'Exposure': 0,
+//         'Training / Qualification': 0,
+//         'Involuntary Motions': 0,
+//         'Motor Vehicle Accident': 0,
+//         'Hearing Loss/STS': 0
+//         }
 
-        sorted[prop].forEach(o => {
-            if(o.FACTORS1){
-                if(object[o.FACTORS1]){
-                    object[o.FACTORS1] += 1
-                } else {
-                    object[o.FACTORS1] = 1
-                }
-            }
-        })
-        data3.push(object)
-}
+//         sorted[prop].forEach(o => {
+//             if(o.FACTORS1){
+//                 if(object[o.FACTORS1]){
+//                     object[o.FACTORS1] += 1
+//                 } else {
+//                     object[o.FACTORS1] = 1
+//                 }
+//             }
+//         })
+//         data3.push(object)
+// }
 
-console.log(data3)
+// console.log(data3)
+
+
+
+
+
+
+
+
+
+
+
+
+// Create summary counts for pie charts
+
+var factorSums = d3.nest()
+  .key(function(d) { return d.FACTORS1; })
+  .rollup(function(v) { return v.length; })
+  .entries(data2);
+console.log(JSON.stringify(factorSums));
+
+var bodySums = d3.nest()
+  .key(function(d) { return d.BODY_PARTS; })
+  .rollup(function(v) { return v.length; })
+  .entries(data2);
+console.log(JSON.stringify(bodySums));
+
+
+// Create a summary of counts by year
+
+// Code for annual summary
+
+// data2.forEach(function (arrayItem){
+//     var x = arrayItem["Incident Date"].split("/")[2]
+//     console.log(x)
+// })
+
+var AccidentsByYear = d3.nest()
+  .key(function(d) {var x = d["Incident Date"].split("/")[2]; return x })
+  .rollup(function(v) { return v.length; })
+  .entries(data2);
+console.log(JSON.stringify(AccidentsByYear));
+
+
+
+
+// Code for monthly summary
+
+data2.forEach(function (arrayItem){
+    var x = arrayItem["Incident Date"].split("/")
+    let y = x[0] + '/' + x[2]
+    // console.log(y)
+})
+
+var AccidentsByMonth = d3.nest()
+  .key(function(d) {
+      var x = d["Incident Date"].split("/");
+      let y = x[0] + '/' + x[2] 
+      return y
+    })
+  .rollup(function(v) { return v.length; })
+  .entries(data2);
+console.log(JSON.stringify(AccidentsByMonth));
