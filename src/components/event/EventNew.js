@@ -1,16 +1,14 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { createEvent } from '../../Actions/api_index'
-import { connect } from 'react-redux' 
+import { connect } from 'react-redux'
 import renderDatePicker from './DatePicker'
 import moment from 'moment';
-import { Link } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom';
+// import { Link } from 'react-router-dom'
+// import { compose } from 'redux'
 
 
-
-// let submit = (values) =>{
-//     console.log('Submit form values:', values)
-// }
 
 let EventFormFunc = props => {
     // Configuration objects
@@ -22,16 +20,18 @@ let EventFormFunc = props => {
         description } = props.fields
 
     const { handleSubmit } = props
-
-    // console.log(11111, tabldg)
-    // console.log(1111111, submit)
-
-    // console.log(7438734834387, createEvent)
-    // console.log('Props', props)
+    
+    let onSubmit = (formData) => {
+        // console.log("The form's payload", props)
+        props.createEvent(formData).then(res => {
+            props.history.push('/Dashboard')
+        })
+    }
 
     return (
+
         <div className='new-form-container'>
-            <form onSubmit={handleSubmit(createEvent)} className='new-main-form'>
+            <form onSubmit={handleSubmit(onSubmit)} className='new-main-form'>
                 <h3 className='new-event-form-header'> Record a New Incident </h3>
 
                 <div className='form-group'>
@@ -55,7 +55,7 @@ let EventFormFunc = props => {
                 <div className='form-group'>
                     <label>TA - BLDG </label>
                     {/* Pass configuration object into the input with {...TaBldg} */}
-                    <Field name="tabldg" type="text" className="form-control" component="input" {...tabldg} placeholder='i.e. 03-4300'  inputStyle={{ fontSize: '12px' }} helperText={"Add a location using the two digit TA four digit building designation"}/>
+                    <Field name="tabldg" type="text" className="form-control" component="input" {...tabldg} placeholder='i.e. 03-4300' />
                 </div>
 
                 <div className='form-group'>
@@ -68,11 +68,6 @@ let EventFormFunc = props => {
                     <Field name="factors1" type="text" className="form-control" component="input" {...factors1} />
                 </div>
 
-                {/* <div className='form-group'>
-                    <label>Factors 2 </label>
-                    <Field name="factors2" type="text" className="form-control" component="input" {...factors2} />
-                </div> */}
-
                 <div className='form-group'>
                     <label>Body Parts </label>
                     <Field name="bodyparts" type="text" className="form-control" component="input" {...bodyparts} />
@@ -82,10 +77,11 @@ let EventFormFunc = props => {
                     <label>Description </label>
                     <Field name="description" type='textarea' className="form-control" component="input" {...description} />
                 </div>
-                <Link to ='/Dashboard'>
+
                 <button type="submit" className="btn btn-primary">Submit</button>
-                </Link>
+                
             </form>
+
         </div>
     )
 }
@@ -107,10 +103,8 @@ let EventForm = reduxForm({
         'tabldg',
         'jobtitle',
         'factors1',
-        'factors2',
         'bodyparts',
         'description']
 })(connectedForm)
-
 
 export default EventForm

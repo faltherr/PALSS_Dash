@@ -1,9 +1,10 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip} from 'recharts';
+// import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Brush } from 'recharts';
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import Loading from 'react-loading-animation'
-
+import moment from 'moment'
 
 class StackedBarChart extends Component {
     constructor(){
@@ -13,68 +14,6 @@ class StackedBarChart extends Component {
             transformedData: []
         }
     }
-
-    componentDidMount(){
-
-            // const { events } = this.props
-            // console.log("events", events)
-            // if (events.length) {
-            //     let eventsClone = _.clone(events)
-            //     let monthYear = eventsClone.map(data => {
-            //         let date = data['date'].split('/')
-            //         date.splice(1, 1)
-            //         data.month = +date[0]
-            //         data.year = +date[1]
-            //         data['date'] = date.join('/')
-            //         return data
-            //     })
-            //     let sorted = _.sortBy(monthYear, ['month', 'year'])
-            //     sorted = _.groupBy(sorted, o => o['date'])
-
-            //     console.log('Events sorted', sorted)
-            //     console.log('Stacked Bar component', events)
-
-            //     let data3 = []
-            //     var newStateArray = this.state.transformedData.slice();
-
-            //     for (sorted.prop in sorted) {
-            //         let object = {
-            //             Date: sorted.prop,
-            //             'Repetitive Motion/cumulative Trauma': 0,
-            //             'Slip/Trip/Fall': 0,
-            //             'Voluntary Motions': 0,
-            //             'Contact': 0,
-            //             'Struck Against/By': 0,
-            //             'Lift/Push/Pull': 0,
-            //             'Caught In, On, Under Or Between': 0,
-            //             'Bite/sting': 0,
-            //             'Allergic/bodily Reaction': 0,
-            //             'Exposure': 0,
-            //             'Training/Qualification': 0,
-            //             'Involuntary Motions': 0,
-            //             'Motor Vehicle Accident': 0,
-            //             'Hearing Loss/STS': 0
-            //         }
-            //         sorted[sorted.prop].forEach(o => {
-            //             if (o.factors1) {
-            //                 if (object[o.factors1]) {
-            //                     object[o.factors1] += 1
-            //                 } else {
-            //                     object[o.factors1] = 1
-            //                 }
-            //             }
-            //         })
-            //         data3.push(object)
-            //         this.setState({
-            //             transformedData: data3, 
-            //             finishedCalculations: true
-            //         })
-            //         newStateArray.push(object);
-                        
-            //     }
-           
-            // }    
-        }
     
     componentDidUpdate(prevProps){
         const {events} = this.props
@@ -91,18 +30,18 @@ class StackedBarChart extends Component {
                     data['date'] = date.join('/')
                     return data
                 })
-                let sorted = _.sortBy(monthYear, ['month', 'year'])
+                let sorted = _.sortBy(monthYear, ['year', 'month'])
                 sorted = _.groupBy(sorted, o => o['date'])
-                
+
                 // console.log('Events sorted', sorted)
                 // console.log('Stacked Bar component', events)
                 
                 let data3 = []
                 // var newStateArray = this.state.transformedData.slice();
                 
-                for (sorted.prop in sorted) {
+                for (let prop in sorted) {
                     let object = {
-                        Date: sorted.prop,
+                        Date: prop,
                         'Repetitive Motion/cumulative Trauma': 0,
                         'Slip/Trip/Fall': 0,
                         'Voluntary Motions': 0,
@@ -118,7 +57,7 @@ class StackedBarChart extends Component {
                         'Motor Vehicle Accident': 0,
                         'Hearing Loss/STS': 0
                     }
-                    sorted[sorted.prop].forEach(o => {
+                    sorted[prop].forEach(o => {
                         if (o.factors1) {
                             if (object[o.factors1]) {
                                 object[o.factors1] += 1
@@ -128,6 +67,7 @@ class StackedBarChart extends Component {
                         }
                     })
                     data3.push(object)
+                    // console.log(data3)
                     this.setState({
                         transformedData: data3, 
                         finishedCalculations: true
@@ -139,10 +79,10 @@ class StackedBarChart extends Component {
     }
 
     render() {
-        let { events, errorMessage } = this.props
+        let { errorMessage } = this.props
         let { finishedCalculations, transformedData } = this.state
-        console.log(finishedCalculations)
-        console.log(transformedData)
+        // console.log(finishedCalculations)
+        // console.log(transformedData)
         return (
             finishedCalculations
                 ?
@@ -152,13 +92,27 @@ class StackedBarChart extends Component {
                         <BarChart width={600} height={300} data={transformedData}
 
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
+                            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                            <XAxis dataKey="Date" angle={-45} textAnchor="end" tickFormatter={function formatXAxis(tickItem, ){return moment(tickItem, 'MM/YY').format('MMM YYYY')}} />
                             <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="Repetitive Motion/cumulative Trauma" stackId="a" fill="#8884d8" />
-                            <Bar dataKey="Slip/Trip/Fall" stackId="a" fill="#82ca9d" />
+                            <Tooltip className="bar-chart-tooltip" labelFormatter={function formatLabel(Label, ){return moment(Label, 'MM/YY').format('MMMM, YYYY')}}/>
+                            {/* <Legend verticalAlign="middle" layout="vertical" align="right"/> */}
+                            <Bar dataKey="Slip/Trip/Fall" stackId="a" fill="#3f007d" />
+                            <Bar dataKey="Repetitive Motion/cumulative Trauma" stackId="a" fill="#cab2d6" />
+                            <Bar dataKey="Contact" stackId="a" fill ="#ff7f00"/>
+                            <Bar dataKey="Voluntary Motions" stackId="a" fill ="#fdbf6f"/>
+                            <Bar dataKey="Struck Against/By" stackId="a" fill ="#fb9a99"/>
+                            <Bar dataKey="Lift/Push/Pull" stackId="a" fill ="#33a02c"/>
+                            <Bar dataKey="Caught In, On, Under Or Between" stackId="a" fill ="#b2df8a"/>
+                            <Bar dataKey="Bite/sting" stackId="a" fill ="#1f78b4"/>
+                            <Bar dataKey="Allergic/bodily Reaction" stackId="a" fill ="#a6cee3"/>
+                            <Bar dataKey="Exposure" stackId="a" fill ="#d9d9d9"/>
+                            <Bar dataKey="Training/Qualification" stackId="a" fill ="#b3de69"/>
+                            <Bar dataKey="Involuntary Motions" stackId="a" fill ="#fdb462"/>
+                            <Bar dataKey="Involuntary Motions" stackId="a" fill ="#fb8072"/>
+                            <Bar dataKey="Motor Vehicle Accident" stackId="a" fill ="#a65628"/>
+                            <Bar dataKey="Hearing Loss/STS" stackId="a" fill ="#8dd3c7"/>
+                            {/* <Brush /> */}
                         </BarChart>
                     </div>
                 :

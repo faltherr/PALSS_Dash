@@ -33,7 +33,7 @@ class SimpleMap extends Component {
     }
 
     closeAndEdit = (id, props) => {
-        console.log('sdlkfslhflk')
+        // console.log('sdlkfslhflk')
         this.onCloseModal();
         this.props.editEvent(id, props)
     }
@@ -51,6 +51,7 @@ class SimpleMap extends Component {
     createMarkers(events) {
         
         const { openedit, opendelete } = this.state
+        // console.log('Events in mapjs', events)
         return events.map(event => {
             let { latitude: lat, longitude: lon, id, date, tabuilding} = event
             return lat && lon &&
@@ -80,6 +81,7 @@ class SimpleMap extends Component {
     }
 
     componentWillReceiveProps(props) {
+        console.log('map component receives props', props.events)
         if (props.events.length) {
             this.setState({
                 markers: this.createMarkers(props.events)

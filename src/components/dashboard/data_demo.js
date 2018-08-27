@@ -408,11 +408,51 @@ var factorSums = d3.nest()
   .entries(data2);
 console.log(JSON.stringify(factorSums));
 
+const factorSumsData = factorSums.map(factor => {
+    // let newArr = []
+    // newArr.push(factor.value) 
+    // console.log(newArr)
+    let data = {
+        name: factor.key,
+        quantity: factor.value
+    }
+    return data
+})
+console.log('factorSumsData', factorSumsData)
+// const old_obj = {
+//     k1: `111`,
+//     k2: `222`,
+//     k3: `333`
+// };
+// console.log(`old_obj =\n`, old_obj);
+// // {k1: "111", k2: "222", k3: "333"}
+
+
+// /**
+//  * @author xgqfrms
+//  * @description ES6 ...spread & Destructuring Assignment
+//  */
+
+// const DonutChartData = _(factorSums)
+
+// var DonutChartData = {};
+
+// _.each(factorSums, function(value, key) {
+//     key = map[key] || key;
+//     DonutChartData[key] = value;
+// });
+
+// console.log(`Donut`, DonutChartData);
+// {kA: "111", kB: "222", kC: "333"}
+
+
+
+
 var bodySums = d3.nest()
   .key(function(d) { return d.BODY_PARTS; })
   .rollup(function(v) { return v.length; })
   .entries(data2);
-console.log(JSON.stringify(bodySums));
+// console.log(JSON.stringify(bodySums));
 
 
 // Create a summary of counts by year
@@ -428,7 +468,7 @@ var AccidentsByYear = d3.nest()
   .key(function(d) {var x = d["Incident Date"].split("/")[2]; return x })
   .rollup(function(v) { return v.length; })
   .entries(data2);
-console.log(JSON.stringify(AccidentsByYear));
+// console.log(JSON.stringify(AccidentsByYear));
 
 
 

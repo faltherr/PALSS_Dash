@@ -142,7 +142,7 @@ hr {
 
 .forecast-container{
   height: 100%;
-  width: 20%;
+  width: 16%;
 }
 
 .forecast-temps-text{
@@ -152,7 +152,6 @@ hr {
 .event-counter{
   height: 100%;
   width: 20%;
-  background-color: grey;
 }
 
 #container {
@@ -162,7 +161,7 @@ hr {
   padding: 10px;
   width: 800px;
   height: 800px;
-  background-color: #fff;
+
 }
 
 .map-graph-wrapper{
@@ -176,7 +175,7 @@ hr {
 
 .map-wrapper{
   height: 100%;
-  width: 48%;
+  width: 30%;
   /* padding-top: 50px;
   padding-right: 30px;
   padding-bottom: 50px;
@@ -184,7 +183,7 @@ hr {
 }
 
 .map-container{ 
-  width: 100%;
+  width: 80%;
   height: 50vh; 
   box-shadow: 0 12px 6px -6px black;
 
@@ -193,8 +192,13 @@ hr {
 .time-series-graph{
   width: 48%;
   height:50vh;
-  background-color: lightpink;
+  /* background-color: lightpink; */
 }
+
+.recharts-surface{
+  height:400px
+}
+
 
 .marker-cluster-custom {
   background: #9370db;

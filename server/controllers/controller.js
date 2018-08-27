@@ -12,9 +12,9 @@ module.exports = {
         let db = req.app.get('db')
         let {eventdate, tabldg, jobtitle, factors1, bodyparts, description} = req.body
         let newEvent = {eventdate, tabldg, jobtitle, factors1, bodyparts, description}
-        let events = db.create_incident(newEvent)
-        let event = events[0]
-        res.status(200).send(event)
+        let events = db.create_incident(newEvent).then(events =>{
+            res.status(200).send(events)
+        })
     },
     updateIncident: (req, res) => {
         let db = req.app.get('db')
