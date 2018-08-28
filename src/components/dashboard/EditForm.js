@@ -76,7 +76,7 @@ class EditEventFormFunc extends Component {
                 />
             </fieldset>
 
-            <button onClick={()=> this.props.closeModal('edit')}> Submit edits </button>
+            <button onClick={()=> this.props.closeModal('edit')} className='btn btn-primary'> Submit edits </button>
         </form>
     )
 }

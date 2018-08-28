@@ -15,7 +15,7 @@ export default class DashboardContainer extends Component {
             <div className="main-dashboard-container">
                 <div>
                     <Link to='/newevent'>
-                        <button> Add a New Incident </button>
+                        <button className='btn btn-primary'> Add a New Incident </button>
                     </Link>
                 </div>
                 <div className="forecast-counter-table-wrapper">

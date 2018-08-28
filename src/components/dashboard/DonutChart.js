@@ -16,7 +16,7 @@ class DonutChart extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log(colors)
+        // console.log(colors)
         const { events } = this.props
         const { finishedCalculations } = this.state
         if (events.length && !finishedCalculations) {
@@ -51,7 +51,7 @@ class DonutChart extends Component {
             finishedCalculations
                 ?
                 <div>
-                    <Donut data={transformedData} colorSchema={colors.colorSchemas.purple} />
+                    <Donut data={transformedData} colorSchema={colors.colorSchemas.purple}/>
                 </div>
                 :
                 errorMessage

@@ -63,17 +63,17 @@ class SimpleMap extends Component {
                         <br />
                         <span> Location: {tabuilding} </span>
                         <br />
-                        <button onClick={() => this.onOpenModal('edit')}>Edit</button>
+                        <button onClick={() => this.onOpenModal('edit')} className='btn btn-primary'>Edit</button>
                         <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
                             <div className="edit-form">
                                 <EditEvent id ={id} closeModal = {this.onCloseModal}/>
                             </div>
                         </Modal>
 
-                        <button onClick={() => this.onOpenModal('delete')}>Delete</button>
+                        <button onClick={() => this.onOpenModal('delete')} className='btn btn-danger'>Delete</button>
                         <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
                             <h2>Are you sure you want to delete this incident?</h2>
-                            <button onClick={() => { this.closeAndDelete(id) }} > Confirm and delete </button>
+                            <button onClick={() => { this.closeAndDelete(id) }} className='btn btn-danger' > Confirm and delete </button>
                         </Modal>
                     </Popup>
                 </Marker>
@@ -81,7 +81,7 @@ class SimpleMap extends Component {
     }
 
     componentWillReceiveProps(props) {
-        console.log('map component receives props', props.events)
+        // console.log('map component receives props', props.events)
         if (props.events.length) {
             this.setState({
                 markers: this.createMarkers(props.events)

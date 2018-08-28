@@ -4,10 +4,7 @@ import { createEvent } from '../../Actions/api_index'
 import { connect } from 'react-redux'
 import renderDatePicker from './DatePicker'
 import moment from 'moment';
-// import { Redirect } from 'react-router-dom';
-// import { Link } from 'react-router-dom'
-// import { compose } from 'redux'
-
+import { Link } from 'react-router-dom'
 
 
 let EventFormFunc = props => {
@@ -20,7 +17,7 @@ let EventFormFunc = props => {
         description } = props.fields
 
     const { handleSubmit } = props
-    
+
     let onSubmit = (formData) => {
         // console.log("The form's payload", props)
         props.createEvent(formData).then(res => {
@@ -39,14 +36,14 @@ let EventFormFunc = props => {
                     {/* <Field name="eventdate" type="text" className="form-control" component="input" {...eventdate} autoComplete="none" /> */}
                     <Field
                         name="eventdate"
-                        inputValueFormat="MM-DD-YYYY"
+                        inputValueFormat="M/D/YYYY"
                         dateFormat="L"
                         dateFormatCalendar="dddd"
                         fixedHeight
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode="select"
-                        normalize={value => (value ? moment(value).format('YYYY-MM-DD') : null)}
+                        normalize={value => (value ? moment(value).format('M/D/YY') : null)}
                         component={renderDatePicker}
                         {...eventdate}
                     />
@@ -60,7 +57,24 @@ let EventFormFunc = props => {
 
                 <div className='form-group'>
                     <label>JobTitle </label>
-                    <Field name="jobtitle" type="text" className="form-control" component="input" {...jobtitle} />
+                    <Field name="jobtitle" type="text" className="form-control" component="select" {...jobtitle} >
+                        <option />
+                        <option value='PLANNER'> Planner </option>
+                        <option value='ARCHITECT'> Architect </option>
+                        <option value='STAFF MEMBER'> Staff Member </option>
+                        <option value='ENGINEER'> Engineer </option>
+                        <option value='GRADUATE STUDENT SA'> Graduate Student </option>
+                        <option value='PIPE FITTER'> Pipe Fitter </option>
+                        <option value='RESEARCH TEC'> Research Tecnnician </option>
+                        <option value='DRIVER'> Driver </option>
+                        <option value='MACHINIST'> Machinist </option>
+                        <option value='ACCOUNTANT'> Accountant </option>
+                        <option value='HEALTH AND SAFETY TE'> Health and Safety Technician </option>
+                        <option value='HR ASSISTANT'> HR Assistant </option>
+                        <option value='NUCLEAR MATERIALS SP'> Nuclear Materials Specialist </option>
+                        <option value='INSPECTOR'> Inspector </option>
+                        <option value='PROGRAM DIRECTOR'> Program Director </option>
+                    </Field>
                 </div>
 
                 <div className='form-group'>
@@ -78,8 +92,12 @@ let EventFormFunc = props => {
                     <Field name="description" type='textarea' className="form-control" component="input" {...description} />
                 </div>
 
-                <button type="submit" className="btn btn-primary">Submit</button>
-                
+                <div className='new-form-button-container'>
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <Link to='/Dashboard'>
+                        <button className='btn btn-default'> Cancel </button>
+                    </Link>
+                </div>
             </form>
 
         </div>
