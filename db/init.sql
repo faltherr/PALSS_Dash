@@ -50,6 +50,25 @@ Description TEXT
 
 SELECT * FROM events
 
+-- This creates the user table
+
+CREATE TABLE users(
+id serial PRIMARY KEY,
+auth_id TEXT,
+first_name VARCHAR(40),
+last_name VARCHAR(40),
+email VARCHAR,
+admin_auth BOOLEAN DEFAULT false
+)
+
+
+-- Give Admin privelleges
+
+UPDATE ONLY users
+SET admin_auth = TRUE
+WHERE auth_id = 'github|20692872'
+
+
 -- This allows me to select from both the parent (Location Data) and the child (Events)
 
 SELECT *

@@ -1,8 +1,23 @@
 import React, { Component } from 'react'
 // import logo from '../../../public/logo_transparent.png'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 
-export default class LandingPage extends Component {
+class LandingPage extends Component {
+
+    login = () => {
+        let auth0domain = `https://${process.env.REACT_APP_AUTH0_DOMAIN}`
+        let clientId = process.env.REACT_APP_AUTH0_CLIENT_ID
+        let scope = encodeURIComponent('openid profile email')
+        //The code from auth0 comes from here
+        let redirectUri = encodeURIComponent(`${window.location.origin}/auth/callback`)
+    
+        let location = `${auth0domain}/authorize?client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}&response_type=code`
+    
+        //Window.location takes the wraped url location and sends us to the new location 
+        window.location = location
+      }
+
     render() {
         return (
             <div className="landing-page-main-container">
@@ -23,10 +38,18 @@ export default class LandingPage extends Component {
                     <button> Dashboard </button>
                     </Link>
                     <Link to ='/'>
-                    <button> Admin Login </button>
+                    <button onClick={this.login}> Login </button>
                     </Link>
                 </div>
             </div>
         )
     }
 }
+
+let mapStateToProps = (state) => {
+    return{
+        user_data: state.reducer.user_data
+    }
+}
+
+export default connect(mapStateToProps)(LandingPage)

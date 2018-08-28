@@ -1,7 +1,7 @@
 
 import { GET_EVENTS, CREATE_EVENT, DELETE_EVENT, EDIT_EVENT } from '../Actions/api_index'
 import { FETCH_WEATHER } from '../Actions/weather_fetcher'
-
+import {GET_USER, LOGOUT_USER} from '../Actions/authentication'
 
 let initialState = {
     //Events is an array that contains all of the events
@@ -19,7 +19,8 @@ let initialState = {
     factors1: '',
     factors2: '',
     bodyparts: '',
-    forecast: []
+    forecast: [],
+    user_data: null
 }
 
 const FULFILLED = '_FULFILLED'
@@ -121,7 +122,15 @@ export default function reducer(state = initialState, action) {
                 forecast: [],
                 errorMessage: action.payload
             }
+        
+        // Authentication
 
+        case GET_USER + FULFILLED:
+            console.log('This is the authentication payload', action.payload)
+            return { ...state, user_data: action.payload.data }
+        
+        case LOGOUT_USER + FULFILLED:
+            return { ...state, user_data: null }
 
         default:
             return state;

@@ -49,11 +49,11 @@ class SimpleMap extends Component {
 
 
     createMarkers(events) {
-        
+
         const { openedit, opendelete } = this.state
         // console.log('Events in mapjs', events)
         return events.map(event => {
-            let { latitude: lat, longitude: lon, id, date, tabuilding} = event
+            let { latitude: lat, longitude: lon, id, date, tabuilding } = event
             return lat && lon &&
                 <Marker position={[lat, lon]} key={id}>
                     <Popup>
@@ -63,18 +63,37 @@ class SimpleMap extends Component {
                         <br />
                         <span> Location: {tabuilding} </span>
                         <br />
-                        <button onClick={() => this.onOpenModal('edit')} className='btn btn-primary'>Edit</button>
-                        <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
-                            <div className="edit-form">
-                                <EditEvent id ={id} closeModal = {this.onCloseModal}/>
-                            </div>
-                        </Modal>
 
-                        <button onClick={() => this.onOpenModal('delete')} className='btn btn-danger'>Delete</button>
-                        <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
-                            <h2>Are you sure you want to delete this incident?</h2>
-                            <button onClick={() => { this.closeAndDelete(id) }} className='btn btn-danger' > Confirm and delete </button>
-                        </Modal>
+                        {
+                            this.props.user_data
+                            ?
+                            this.props.user_data.admin_auth
+                            ?
+                            //put in admin stuff 
+                            <div>
+                            <button onClick={() => this.onOpenModal('edit')} className='btn btn-primary'>Edit</button>
+                                    <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
+                                        <div className="edit-form">
+                                            <EditEvent id={id} closeModal={this.onCloseModal} />
+                                        </div>
+                                    </Modal>
+
+                                    <button onClick={() => this.onOpenModal('delete')} className='btn btn-danger'>Delete</button>
+                                    <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
+                                        <h2>Are you sure you want to delete this incident?</h2>
+                                        <button onClick={() => { this.closeAndDelete(id) }} className='btn btn-danger' > Confirm and delete </button>
+                                    </Modal>
+                             </div>       
+                                :
+                                    //put in regular dashboard 
+                                    null
+                                :
+                                null
+                        }
+
+
+
+
                     </Popup>
                 </Marker>
         })
@@ -128,7 +147,8 @@ class SimpleMap extends Component {
 
 function mapStateToProps(state) {
     return {
-        events: state.reducer.events
+        events: state.reducer.events,
+        user_data: state.reducer.user_data
     }
 }
 
