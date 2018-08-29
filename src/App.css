@@ -157,19 +157,24 @@ hr {
 }
 
 .user-data-interaction-container{
-  height: 5vh;
+  height: 10vh;
   width: 100vw;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
-.filter-date-container{
+.filter-container{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: baseline;
-  justify-content: flex-start;
   color: white;
+  height: 100%;
 }
+
+/* .filter-container p{
+  height: 50%;
+} */
 
 .forecast-counter-table-wrapper{
   display: flex;
@@ -178,6 +183,17 @@ hr {
   height: 40vh;
   width: 100vw;
   margin-top: 5px;
+}
+
+/*********** Table stuff *************/
+
+/* Remove the top border from the table */
+.react-bs-container-header tr {
+  border-top-style: hidden !important;
+}
+
+.react-bs-container-body tr {
+  border-bottom-style: hidden !important;
 }
 
 .table thead tr th{
@@ -203,6 +219,8 @@ hr {
 .react-bs-table-container{
   background-color: transparent;
 }
+
+/*********** Forecast stuff *************/
 
 .forecast-container{
   height: 100%;

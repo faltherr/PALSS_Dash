@@ -93,9 +93,7 @@ class StackedBarChart extends Component {
 
                             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                             {/* <CartesianGrid strokeDasharray="3 3" /> */}
-                            <XAxis dataKey="Date" angle={-45} textAnchor="end" tickFormatter={function formatXAxis(tickItem, ){return moment(tickItem, 'MM/YY').format('MMM YYYY')}} />
-                            <YAxis />
-                            <Tooltip className="bar-chart-tooltip" labelFormatter={function formatLabel(Label, ){return moment(Label, 'MM/YY').format('MMMM, YYYY')}}/>
+                            <Tooltip className="bar-chart-tooltip" labelFormatter={function formatLabel(Label, ){return moment(Label, 'MM/YY').format('MMMM, YYYY')}} />
                             {/* <Legend verticalAlign="middle" layout="vertical" align="right"/> */}
                             <Bar dataKey="Slip/Trip/Fall" stackId="a" fill="#3f007d" />
                             <Bar dataKey="Repetitive Motion/cumulative Trauma" stackId="a" fill="#cab2d6" />
@@ -112,6 +110,8 @@ class StackedBarChart extends Component {
                             <Bar dataKey="Involuntary Motions" stackId="a" fill ="#fb8072"/>
                             <Bar dataKey="Motor Vehicle Accident" stackId="a" fill ="#a65628"/>
                             <Bar dataKey="Hearing Loss/STS" stackId="a" fill ="#8dd3c7"/>
+                            <XAxis dataKey="Date" angle={-45} textAnchor="end" tickFormatter={function formatXAxis(tickItem, ){return moment(tickItem, 'MM/YY').format('MMM YYYY')}} stroke="white"/>
+                            <YAxis stroke='white' />
                             {/* <Brush /> */}
                         </BarChart>
                     </div>

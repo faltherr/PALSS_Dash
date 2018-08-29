@@ -54,7 +54,7 @@ class DashboardContainer extends Component {
                 </div>
                 <div className='user-data-interaction-container'>
                     {/* <Input type="select" onChange={this.onDropdownSelected}/> */}
-                    <div className="filter-date-container">
+                    <div className="filter-container">
                         <p> Select events occuring: </p>
                         <select className="date-filter-dropdown">
                             <option> Within the past 6 months </option>
@@ -63,6 +63,22 @@ class DashboardContainer extends Component {
                             <option> Within the past five years </option>
                             <option> Since 2006 </option>
                         </select>
+                    </div>
+                    <div className="filter-container">
+                    <p> Filter by location: </p>
+                    <input />
+                    </div>
+                    <div className="filter-container">
+                    <p> Filter by factors: </p>
+                    <input />
+                    </div>
+                    <div className="filter-container">
+                    <p> Filter by job: </p>
+                    <input />
+                    </div>
+                    <div className="filter-container">
+                    <p> Search by description: </p>
+                    <input />
                     </div>
                 </div>
                 <div className="forecast-counter-table-wrapper">
