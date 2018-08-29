@@ -6,7 +6,7 @@ import SimpleMap from './Map';
 import WeatherForecast from './Forecast'
 import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
-import { getUser } from '../../Actions/authentication'
+import { getUser, logout } from '../../Actions/authentication'
 // import LineChart from './TimeSeries'
 
 class DashboardContainer extends Component {
@@ -25,21 +25,45 @@ class DashboardContainer extends Component {
                         <h4 className="header-link-text dashboard"> Dashboard </h4>
                         <Link to='/About'> <h4 className="header-link-text"> About </h4> </Link>
                     </div>
-                    {
-                        this.props.user_data
-                            ?
-                            this.props.user_data.admin_auth
+                    <div className='dashboard-button-container'>
+                        {
+                            //If the user is logged in and they are an admin then we allow them to have admin privelleges to full CRUD
+                            this.props.user_data
                                 ?
-                                //put in admin stuff 
-                                <Link to='/newevent'>
-                                    <button className='btn btn-success'> Add a New Incident </button>
-                                </Link>
+                                this.props.user_data.admin_auth
+                                    ?
+                                    //put in admin stuff 
+                                    <Link to='/newevent'>
+                                        <button className='btn btn-success'> Add a New Incident </button>
+                                    </Link>
+                                    :
+                                    //put in regular dashboard 
+                                    null
                                 :
-                                //put in regular dashboard 
                                 null
-                            :
-                            null
-                    }
+                        }
+                        {
+                            //If the user is not logged in we do not render a logout button
+                            this.props.user_data
+                                ?
+                                <button onClick={logout} className='btn btn-default'> Logout </button>
+                                :
+                                null
+                        }
+                    </div>
+                </div>
+                <div className='user-data-interaction-container'>
+                    {/* <Input type="select" onChange={this.onDropdownSelected}/> */}
+                    <div className="filter-date-container">
+                        <p> Select events occuring: </p>
+                        <select className="date-filter-dropdown">
+                            <option> Within the past 6 months </option>
+                            <option> Within the past year </option>
+                            <option> Within the past two years </option>
+                            <option> Within the past five years </option>
+                            <option> Since 2006 </option>
+                        </select>
+                    </div>
                 </div>
                 <div className="forecast-counter-table-wrapper">
 
@@ -47,9 +71,9 @@ class DashboardContainer extends Component {
                         <IncidentTable />
                     </div>
 
-                    <div className='forecast-container'>
+                    {/* <div className='forecast-container'>
                         <WeatherForecast />
-                    </div>
+                    </div> */}
 
                     <div className='event-counter' >
                         <DonutChart />
@@ -81,4 +105,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { getUser })(DashboardContainer)
+export default connect(mapStateToProps, { getUser, logout })(DashboardContainer)

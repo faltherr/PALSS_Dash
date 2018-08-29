@@ -40,7 +40,7 @@ app.get("/api/currentUser", (req, res) => {
 
 app.get('/api/logout', (req, res) => {
     req.session.destroy()
-    res.sendStatus(200)
+    res.status(200).redirect('/')
 })
 
 // Incident Data Endpoints

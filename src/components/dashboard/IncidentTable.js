@@ -41,13 +41,13 @@ class IncidentTable extends Component {
 
         return(
             <div className="event-table">
-                <BootstrapTable data = {this.props.events} height = '200' scrollTop={'Bottom'} striped hover>
-                    <TableHeaderColumn width='120' dataField='id' isKey dataSort={ true }> Event ID </TableHeaderColumn>
-                    <TableHeaderColumn width='150' dataField='date' dataSort={ true }> Date </TableHeaderColumn>
-                    <TableHeaderColumn width='150' dataField='tabuilding' dataSort={ true }> TA-BLDG </TableHeaderColumn>
-                    <TableHeaderColumn width='150' dataField='factors1'> Primary Factors </TableHeaderColumn>
-                    <TableHeaderColumn width='150' dataField='jobtitle'> Job Title </TableHeaderColumn>
-                    <TableHeaderColumn width='150' dataField='description'> Description </TableHeaderColumn>
+                <BootstrapTable data = {this.props.events} height = '260' scrollTop={'Bottom'} striped hover bordered={ false } options={ { noDataText: 'Your data request is loading...' }} >
+                    <TableHeaderColumn width='90' dataField='id' isKey dataSort={ true }> Event ID </TableHeaderColumn>
+                    <TableHeaderColumn width='90' dataField='date' dataSort={ true }> Date </TableHeaderColumn>
+                    <TableHeaderColumn width='100' dataField='tabuilding' dataSort={ true }> TA-BLDG </TableHeaderColumn>
+                    <TableHeaderColumn width='120' dataField='factors1'> Primary Factors </TableHeaderColumn>
+                    <TableHeaderColumn width='120' dataField='jobtitle'> Job Title </TableHeaderColumn>
+                    <TableHeaderColumn width='120' dataField='description'> Description </TableHeaderColumn>
                     {/* <TableHeaderColumn width='150' dataField='button' dataFormat={this.buttonFormatter}/>  */}
                 </BootstrapTable>
             </div>
