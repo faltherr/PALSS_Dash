@@ -3,20 +3,33 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import IncidentTable from './IncidentTable'
 import SimpleMap from './Map';
-import WeatherForecast from './Forecast'
+// import WeatherForecast from './Forecast'
 import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
 import { getUser, logout } from '../../Actions/authentication'
+import { uniqueLocations, uniqueFactors, uniqueJobs } from './UniqueData'
+import Select from 'react-select'
+
 // import LineChart from './TimeSeries'
 
 class DashboardContainer extends Component {
+    constructor() {
+        super()
+        this.state = {
+            locationFilterString: '',
+            factorsFilterString: '',
+            jobsFilterString: '',
+            descriptionFilterString: ''
+        }
+    }
 
     componentDidMount() {
         this.props.getUser()
     }
 
     render() {
-        console.log(this.props.user_data)
+        // console.log(this.props.user_data)
+        // console.log(uniqueLocations)
         return (
             <div className="main-dashboard-container">
                 <div className='dashboard-header'>
@@ -65,20 +78,30 @@ class DashboardContainer extends Component {
                         </select>
                     </div>
                     <div className="filter-container">
-                    <p> Filter by location: </p>
-                    <input />
+                        <p> Filter by location: </p>
+                        <Select
+                            options={uniqueLocations}
+                            placeholder={'Search by building'}
+                            className='dashboard-filter-bar'
+                        />
                     </div>
                     <div className="filter-container">
-                    <p> Filter by factors: </p>
-                    <input />
+                        <p> Filter by factors: </p>
+                        <Select 
+                        options={uniqueFactors} 
+                        className='dashboard-filter-bar'
+                        />
                     </div>
                     <div className="filter-container">
-                    <p> Filter by job: </p>
-                    <input />
+                        <p> Filter by job: </p>
+                        <Select 
+                        options={uniqueJobs} 
+                        className='dashboard-filter-bar'
+                        />
                     </div>
                     <div className="filter-container">
-                    <p> Search by description: </p>
-                    <input />
+                        <p> Search description: </p>
+                        <input />
                     </div>
                 </div>
                 <div className="forecast-counter-table-wrapper">
@@ -114,7 +137,7 @@ class DashboardContainer extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log("State", state)
+    // console.log("State", state)
     return {
         user_data: state.reducer.user_data
     }

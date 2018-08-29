@@ -402,23 +402,23 @@ var incidentSummaryArray = []
 
 // Create summary counts for pie charts
 
-var factorSums = d3.nest()
-  .key(function(d) { return d.FACTORS1; })
-  .rollup(function(v) { return v.length; })
-  .entries(data2);
-console.log(JSON.stringify(factorSums));
+// var factorSums = d3.nest()
+//   .key(function(d) { return d.FACTORS1; })
+//   .rollup(function(v) { return v.length; })
+//   .entries(data2);
+// console.log(JSON.stringify(factorSums));
 
-const factorSumsData = factorSums.map(factor => {
+// const factorSumsData = factorSums.map(factor => {
     // let newArr = []
     // newArr.push(factor.value) 
     // console.log(newArr)
-    let data = {
-        name: factor.key,
-        quantity: factor.value
-    }
-    return data
-})
-console.log('factorSumsData', factorSumsData)
+//     let data = {
+//         name: factor.key,
+//         quantity: factor.value
+//     }
+//     return data
+// })
+// console.log('factorSumsData', factorSumsData)
 // const old_obj = {
 //     k1: `111`,
 //     k2: `222`,
@@ -448,10 +448,10 @@ console.log('factorSumsData', factorSumsData)
 
 
 
-var bodySums = d3.nest()
-  .key(function(d) { return d.BODY_PARTS; })
-  .rollup(function(v) { return v.length; })
-  .entries(data2);
+// var bodySums = d3.nest()
+//   .key(function(d) { return d.BODY_PARTS; })
+//   .rollup(function(v) { return v.length; })
+//   .entries(data2);
 // console.log(JSON.stringify(bodySums));
 
 
@@ -464,10 +464,10 @@ var bodySums = d3.nest()
 //     console.log(x)
 // })
 
-var AccidentsByYear = d3.nest()
-  .key(function(d) {var x = d["Incident Date"].split("/")[2]; return x })
-  .rollup(function(v) { return v.length; })
-  .entries(data2);
+// var AccidentsByYear = d3.nest()
+//   .key(function(d) {var x = d["Incident Date"].split("/")[2]; return x })
+//   .rollup(function(v) { return v.length; })
+//   .entries(data2);
 // console.log(JSON.stringify(AccidentsByYear));
 
 
@@ -475,18 +475,51 @@ var AccidentsByYear = d3.nest()
 
 // Code for monthly summary
 
-data2.forEach(function (arrayItem){
-    var x = arrayItem["Incident Date"].split("/")
-    let y = x[0] + '/' + x[2]
-    // console.log(y)
-})
+// data2.forEach(function (arrayItem){
+//     var x = arrayItem["Incident Date"].split("/")
+//     let y = x[0] + '/' + x[2]
+//     // console.log(y)
+// })
 
-var AccidentsByMonth = d3.nest()
-  .key(function(d) {
-      var x = d["Incident Date"].split("/");
-      let y = x[0] + '/' + x[2] 
-      return y
-    })
-  .rollup(function(v) { return v.length; })
-  .entries(data2);
-console.log(JSON.stringify(AccidentsByMonth));
+// var AccidentsByMonth = d3.nest()
+//   .key(function(d) {
+//       var x = d["Incident Date"].split("/");
+//       let y = x[0] + '/' + x[2] 
+//       return y
+//     })
+//   .rollup(function(v) { return v.length; })
+//   .entries(data2);
+// console.log(JSON.stringify(AccidentsByMonth));
+
+
+let uniqueFactors = [
+// {value: "Struck Against/By", label: "Struck Against/By"},
+"Repetitive Motion/cumulative Trauma",
+"Slip/Trip/Fall",
+"Voluntary Motions",
+"Contact",
+"Struck against/By",
+"Lift/Push/Pull",
+"Caught In, On, Under Or Between",
+"Bite/sting",
+"Allergic/bodily Reaction",
+"Exposure",
+"Training/Qualification",
+"Involuntary Motions",
+"Motor Vehicle Accident",
+"Hearing Loss/STS"
+]
+
+
+function makeObjects(arr) {
+    return arr.map(function(element){
+    let obj = 
+    {
+        value: element,
+        label: element
+    }
+    console.log(obj)
+    return obj
+})}
+
+console.log(makeObjects(uniqueFactors))

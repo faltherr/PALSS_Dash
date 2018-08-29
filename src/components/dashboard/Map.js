@@ -7,6 +7,16 @@ import L from 'leaflet'
 import Modal from 'react-responsive-modal';
 import EditEvent from './EditForm'
 
+//Loading spinner stuff
+import {FadeLoader} from 'react-spinners'
+import { css } from 'react-emotion'
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
+
 class SimpleMap extends Component {
     constructor() {
         super()
@@ -66,25 +76,25 @@ class SimpleMap extends Component {
 
                         {
                             this.props.user_data
-                            ?
-                            this.props.user_data.admin_auth
-                            ?
-                            //put in admin stuff 
-                            <div>
-                            <button onClick={() => this.onOpenModal('edit')} className='btn btn-primary'>Edit</button>
-                                    <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
-                                        <div className="edit-form">
-                                            <EditEvent id={id} closeModal={this.onCloseModal} />
-                                        </div>
-                                    </Modal>
+                                ?
+                                this.props.user_data.admin_auth
+                                    ?
+                                    //put in admin stuff 
+                                    <div>
+                                        <button onClick={() => this.onOpenModal('edit')} className='btn btn-primary'>Edit</button>
+                                        <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
+                                            <div className="edit-form">
+                                                <EditEvent id={id} closeModal={this.onCloseModal} />
+                                            </div>
+                                        </Modal>
 
-                                    <button onClick={() => this.onOpenModal('delete')} className='btn btn-danger'>Delete</button>
-                                    <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
-                                        <h2>Are you sure you want to delete this incident?</h2>
-                                        <button onClick={() => { this.closeAndDelete(id) }} className='btn btn-danger' > Confirm and delete </button>
-                                    </Modal>
-                             </div>       
-                                :
+                                        <button onClick={() => this.onOpenModal('delete')} className='btn btn-danger'>Delete</button>
+                                        <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
+                                            <h2>Are you sure you want to delete this incident?</h2>
+                                            <button onClick={() => { this.closeAndDelete(id) }} className='btn btn-danger' > Confirm and delete </button>
+                                        </Modal>
+                                    </div>
+                                    :
                                     //put in regular dashboard 
                                     null
                                 :
@@ -121,15 +131,13 @@ class SimpleMap extends Component {
         };
 
         return (
+
             <div id="container">
                 <Map center={map_position} zoom={this.state.zoom} className="map-container" maxZoom={18} minZoom={10}>
                     <TileLayer
                         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         url='https://api.mapbox.com/styles/v1/faltherr/cjku8ndjw044x2rpjzyvz6imf/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZmFsdGhlcnIiLCJhIjoiY2prdTVxZW4zMDNmeDNrcWs3YmJrbTRwcCJ9.7Qq2GjLoD9jpqToGtpYVAA'
                     />
-
-
-
                     <MarkerClusterGroup
                         showCoverageOnHover={true}
                         // spiderfyDistanceMultiplier={2}
@@ -140,6 +148,18 @@ class SimpleMap extends Component {
                     </MarkerClusterGroup>
 
                 </Map>
+                {
+                    !this.props.events.length
+                        ?
+                        <div className='map-fade-loader'>
+                        <FadeLoader 
+                            className={override}
+                            color={'#936FDB'} />
+                        </div>    
+                        :
+                        null
+                }
+
             </div>
         );
     }

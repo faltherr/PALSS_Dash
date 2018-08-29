@@ -6,6 +6,7 @@ import {GET_USER, LOGOUT_USER} from '../Actions/authentication'
 let initialState = {
     //Events is an array that contains all of the events
     events: [],
+    eventsFiltered: [],
     errorMessage: '',
     //singleEvent will hold the currently selected event
     singleEvent: null,

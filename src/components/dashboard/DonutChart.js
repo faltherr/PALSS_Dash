@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
-import { Donut } from 'britecharts-react';
+import { Donut } from 'britecharts-react'
 import { connect } from 'react-redux'
 import * as d3 from "d3"
-import colors from 'britecharts/dist/umd/colors.min.js';
-
+import colors from 'britecharts/dist/umd/colors.min.js'
 // var _ = require('lodash');
+
+//Loading spinner stuff
+import {FadeLoader} from 'react-spinners'
+import { css } from 'react-emotion'
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
 
 class DonutChart extends Component {
     constructor() {
@@ -60,7 +69,9 @@ class DonutChart extends Component {
                         Unexpected error loading events
                     </div>
                 :
-                <Donut data={[]} shouldShowLoadingState={true} />
+                <FadeLoader 
+                className={override}
+                color={'#656665'} />
 
         )
     }
