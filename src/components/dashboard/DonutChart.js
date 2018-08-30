@@ -30,6 +30,8 @@ class DonutChart extends Component {
         const { finishedCalculations } = this.state
         if (events.length && !finishedCalculations) {
             // console.log("Events in donut chart", events)
+            // console.log(this.props.eventsFiltered)
+
             var factorSums = d3.nest()
                 .key(function(d) { return d.factors1; })
                 .rollup(function(v) { return v.length; })

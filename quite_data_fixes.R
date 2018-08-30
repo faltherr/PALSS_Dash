@@ -11,10 +11,16 @@ no_bldg_na <- stf_data_subset[ grep("NA", stf_data_subset$ta_bldg, invert = TRUE
 factors <- unique(no_bldg_na$FACTORS1)
 jobs <- unique(no_bldg_na$`Job Title`)
 body_parts <- unique(no_bldg_na$BODY_PARTS)
+buildings <- unique(no_bldg_na$ta_bldg)
+
+unique(no_bldg_na$ta_bldg)
+
 
 write.table(factors, file='Unique_factors.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
 write.table(jobs, file='Unique_jobs.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
 write.table(body_parts, file='Unique_bodyParts.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
+write.table(buildings, file='Unique_buildings2.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
+
 
 buildings <- read_csv('building_data_cleaned.csv')
 
@@ -35,4 +41,15 @@ jsonData <- toJSON(data_demo_subset, pretty=TRUE, flatten=TRUE, auto_unbox=TRUE)
 cat(jsonData)
 write_json(jsonData, "jsonSubset.json")
 
-?rjson
+write.table(ta_bldg, file='Unique_locations.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
+write.table(factors, file='Unique_factors.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
+write.table(jobs, file='Unique_jobs.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
+write.table(body_parts, file='Unique_bodyParts.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
+
+building_data2<- read_csv('building_data_cleaned.csv')
+no_bldg_na2 <- building_data2[ grep("NA", building_data2$ta_building, invert = TRUE) , ]
+buildings <- unique(no_bldg_na2$ta_building)
+
+unique(no_bldg_na2$ta_building)
+write.table(buildings, file='Unique_buildings2.csv', row.names = FALSE, col.names = FALSE, sep=",", na="")
+

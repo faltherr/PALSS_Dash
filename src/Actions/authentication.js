@@ -11,7 +11,7 @@ export function logout() {
 }
 
 export function getUser() {
-    console.log("Auth action hit")
+    // console.log("Auth action hit")
     return {
         type: GET_USER,
         payload: axios.get('/api/currentUser')

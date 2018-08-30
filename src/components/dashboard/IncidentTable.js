@@ -6,38 +6,12 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 // import Modal from 'react-responsive-modal';
 
 class IncidentTable extends Component {
-    // constructor()  {
-    //     super()
-    //     this.state={
-    //         open: false
-    //     }
-    // }
     
     componentDidMount(){
         this.props.getEvents()
     }
 
-    // onOpenModal = () => {
-    //     this.setState({ open: true });
-    //   };
-    
-    //   onCloseModal = () => {
-    //     this.setState({ open: false });
-    //   };
-
-    //  buttonFormatter = (cell, row) => {
-    //     return '<button type="button" class="btn btn-indigo btn-sm m-0" onClick={this.onOpenModal}>Delete</button> <Modal open={open} onClose={this.onCloseModal} center>
-    //     <h2>Simple centered modal</h2>
-    //   </Modal>';
-    //   }
-
-
     render(){
-        // console.log(this.props.events)
-        // this.props.event.map
-
-        // This is for reac-respnsive-modal
-        // const { open } = this.state;
 
         return(
             <div className="event-table">
@@ -48,7 +22,6 @@ class IncidentTable extends Component {
                     <TableHeaderColumn width='120' dataField='factors1'> Primary Factors </TableHeaderColumn>
                     <TableHeaderColumn width='120' dataField='jobtitle'> Job Title </TableHeaderColumn>
                     <TableHeaderColumn width='120' dataField='description'> Description </TableHeaderColumn>
-                    {/* <TableHeaderColumn width='150' dataField='button' dataFormat={this.buttonFormatter}/>  */}
                 </BootstrapTable>
             </div>
         )

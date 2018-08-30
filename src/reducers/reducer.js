@@ -5,8 +5,8 @@ import {GET_USER, LOGOUT_USER} from '../Actions/authentication'
 
 let initialState = {
     //Events is an array that contains all of the events
+    eventTruth: [],
     events: [],
-    eventsFiltered: [],
     errorMessage: '',
     //singleEvent will hold the currently selected event
     singleEvent: null,
@@ -14,11 +14,10 @@ let initialState = {
     longitude: '',
     id: '',
     date: '',
-    tabuilding: '',
-    description: '',
-    jobtitle: '',
-    factors1: '',
-    factors2: '',
+    tabuildingFilter: '',
+    descriptionFiler: '',
+    jobtitleFilter: '',
+    factors1Filter: '',
     bodyparts: '',
     forecast: [],
     user_data: null
@@ -36,7 +35,8 @@ const REJECTED = '_REJECTED'
 // const ADD_BODYPARTS = 'ADD_BODYPARTS'
 
 export default function reducer(state = initialState, action) {
-    console.log('The action', action.type)
+    // console.log('The action', action.type)
+    // console.log('action.payload.data', action.payload)
     switch (action.type) {
 
         //API Endpoint Events
@@ -48,6 +48,7 @@ export default function reducer(state = initialState, action) {
         case GET_EVENTS + FULFILLED:
             return {
                 ...state,
+                eventTruth: action.payload.data,
                 events: action.payload.data,
                 errorMessage: ''
             }
@@ -127,7 +128,7 @@ export default function reducer(state = initialState, action) {
         // Authentication
 
         case GET_USER + FULFILLED:
-            console.log('This is the authentication payload', action.payload)
+            // console.log('This is the authentication payload', action.payload)
             return { ...state, user_data: action.payload.data }
         
         case LOGOUT_USER + FULFILLED:
