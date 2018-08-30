@@ -2,6 +2,7 @@ const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const massive = require('massive')
+const path = require('path')
 require('dotenv').config()
 
 // Controllers
@@ -28,6 +29,8 @@ app.use(session({
 
 app.use(bodyParser.json())
 
+app.use( express.static( `${__dirname}/../build` ) );
+
 // API Endpoints
 
 // Authentication Enpoints
@@ -48,6 +51,11 @@ app.get('/api/incidents', IC.getIncidents)
 app.post('/api/incidents/new', IC.newIncident)
 app.put('/api/incidents/:id', IC.updateIncident)
 app.delete('/api/incidents/:id', IC.deleteIncident)
+
+//Add this to use BrowserRouter (Must be after last endpoint... This is a catch all)
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+});
 
 app.listen(SERVER_PORT, () => {
     console.log("listening on port:", SERVER_PORT)

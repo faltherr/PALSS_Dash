@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_root = 'http://localhost:4001/api/'
+const API_root = '/api/'
 
 export const GET_EVENTS = "GET_EVENTS"
 export const CREATE_EVENT = "CREATE_EVENTS"

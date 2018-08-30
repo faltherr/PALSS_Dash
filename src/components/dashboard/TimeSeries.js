@@ -15,7 +15,7 @@ var dateArr = []
 
 
 
-d3.json('http://localhost:4001/api/incidents', function (data) {
+d3.json('/api/incidents', function (data) {
     // console.log(237238234878428, data);
     // console.log("Date type:", typeof(data[0].date))
     newData = [...data]
