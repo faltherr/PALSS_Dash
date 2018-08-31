@@ -6,9 +6,10 @@ import SimpleMap from './Map';
 // import WeatherForecast from './Forecast'
 import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
+import {getEventsByTime} from '../../Actions/api_index'
 import { getUser, logout } from '../../Actions/authentication'
 import {filterEvents} from '../../Actions/event_handlers'
-import { uniqueLocations, uniqueFactors, uniqueJobs } from './UniqueData'
+import { uniqueLocations, uniqueFactors, uniqueJobs, uniqueTimes } from './UniqueData'
 import Select from 'react-select'
 
 var _ = require('lodash');
@@ -111,93 +112,20 @@ class DashboardContainer extends Component {
                 return true;
 
             });
-
-            // Will this fail to change state if length is the same?????
-            // What other logic would work to break out of the componentDidUpdate method
-            // if (this.state.preFilterArr.length !== filter.length){
-
-
             this.props.filterEvents(filter)
-
-            // }
-
         }
         if(needsFilter) performFilter()
-
-        // I don't know where to put the action creator event so that it fires when the state changes but does not fire when the array is empty (This will disrupt other components)
-        // if (this.state.preFilterArr.length !== this.props.events.length){
-        //     this.props.filterEvents(this.state.preFilterArr)
-        // }
     }
-
-
-
-
-
-
-    // let locationFilter, jobFilter;
-    // if(prevState.locationFilterString !== locationFilterString) locationFilter = true
-    // if(prevState.jobsFilterString !== jobsFilterString) jobFilter = true
-    // performFilter(locationFilter, jobFilter)
-
-
-
-    //     if (prevProps.events.length !== this.props.events.length) {
-    //         this.setState({ preFilterArr: this.props.events })
-    //     }
-    //     // if (locationFilterString || factorsFilterString || jobsFilterString || descriptionFilterString){
-    //     if (prevState.locationFilterString !== locationFilterString) {
-    //         let preFilterArr = this.props.events.slice()
-    //         if (locationFilterString) {
-    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.tabuilding, locationFilterString));
-    //             // let filter = preFilterArr.filter(o => o.tabuilding.includes(locationFilterString))
-    //             this.setState({
-    //                 preFilterArr: filter
-    //             })
-    //         }
-    //     }
-    //     if (prevState.factorsFilterString !== factorsFilterString) {
-    //         let preFilterArr = this.props.events.slice()
-    //         if (factorsFilterString) {
-    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.factors1, factorsFilterString));
-    //             this.setState({
-    //                 preFilterArr: filter
-    //             })
-    //             console.log('filter by factors', filter)
-
-    //         }
-    //     }
-    //     if (prevState.jobsFilterString !== jobsFilterString) {
-    //         let preFilterArr = this.props.events.slice()
-    //         if (jobsFilterString) {
-    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.jobtitle, jobsFilterString));
-    //             this.setState({
-    //                 preFilterArr: filter
-    //             })
-    //         }
-    //     }
-    //     if (prevState.descriptionFilterString !== descriptionFilterString) {
-    //         let preFilterArr = this.props.events.slice()
-    //         if (descriptionFilterString) {
-    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.description, descriptionFilterString));
-    //             console.log('filter by description', filter)
-    //             this.setState({
-    //                 preFilterArr: filter
-    //             })
-    //         }
-    //     }
-    //     console.log('Prefiltered array', this.state.preFilterArr)
-    // }
 
     render() {
         // console.log(this.props.user_data)
         // console.log(uniqueLocations)
         // console.log(this.state.eventsToFilter)
         // console.log(this.state.descriptionFilterString)
+        // console.log("STATE", this.state)
+        // console.log('location filter string', locationFilterString)
+        // console.log('Job filter string', jobsFilterString)
         const { locationFilterString, factorsFilterString, jobsFilterString } = this.state
-        console.log("STATE", this.state)
-        console.log('location filter string', locationFilterString)
-        console.log('Job filter string', jobsFilterString)
         return (
             <div className="main-dashboard-container">
                 <div className='dashboard-header'>
@@ -237,13 +165,14 @@ class DashboardContainer extends Component {
                     {/* <Input type="select" onChange={this.onDropdownSelected}/> */}
                     <div className="filter-container">
                         <p> Select events occuring: </p>
-                        <select className="date-filter-dropdown">
-                            <option> Within the past 6 months </option>
-                            <option> Within the past year </option>
-                            <option> Within the past two years </option>
-                            <option> Within the past five years </option>
-                            <option> Since 2006 </option>
-                        </select>
+                        <Select
+                            value={{ value: uniqueTimes.label, label:  uniqueTimes.label}}
+                            options={uniqueTimes}
+                            onChange={(e) => this.props.getEventsByTime(e.value)}
+                            className='dashboard-filter-bar'
+                            // clearable={true}
+                            placeholder={'Select...'}
+                        />
                     </div>
                     <div className="filter-container">
                         <p> Filter by location: </p>
@@ -324,4 +253,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { getUser, logout, filterEvents })(DashboardContainer)
+export default connect(mapStateToProps, { getUser, logout, filterEvents, getEventsByTime })(DashboardContainer)

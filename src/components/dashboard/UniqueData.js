@@ -1,3 +1,28 @@
+// Data setup for react-select
+
+let uniqueTimes =[
+    {
+        value: '6 months',
+        label: 'Within the past 6 months'
+    },
+    {
+        value: '12 months',
+        label: 'Within the past 1 year'
+    },
+    {
+        value: '24 months',
+        label: 'Within the past 2 years'
+    },
+    {
+        value: '60 months',
+        label: 'Within the past 5 years'
+    },
+    {
+        value: 'allTime',
+        label: 'Since 2006'
+    }
+]
+
 let uniqueFactorsArr = [
     "Struck Against/By",
     "Repetitive Motion/cumulative Trauma",
@@ -2469,4 +2494,4 @@ let uniqueFactors = makeObjects(uniqueFactorsArr)
 let uniqueLocations = makeObjects(uniqueLocationsArr)
 let uniqueJobs = makeObjects(uniqueJobsArr)
 
-export { uniqueLocations, uniqueFactors, uniqueJobs }
+export { uniqueLocations, uniqueFactors, uniqueJobs, uniqueTimes }

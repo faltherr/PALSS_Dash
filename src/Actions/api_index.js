@@ -6,8 +6,9 @@ export const GET_EVENTS = "GET_EVENTS"
 export const CREATE_EVENT = "CREATE_EVENTS"
 export const DELETE_EVENT = "DELETE_EVENT"
 export const EDIT_EVENT = "EDIT_EVENT"
+export const GET_EVENT_BY_MONTHS  = "GET_EVENT_BY_MONTHS"
 
-//Read all events
+//Read all events in last 6 months
 
 export function getEvents(){
     const url = API_root + 'incidents'
@@ -52,6 +53,18 @@ export function editEvent (id, props){
 
     return{
         type: EDIT_EVENT,
+        payload: request
+    }
+}
+
+// Expand or shrink events array by user time input
+
+export function getEventsByTime(months) {
+    console.log('MONTHSSSSSSSS', months)
+    const url =  API_root + `incidents/?months=${encodeURI(months)}`
+    const request = axios.get(url)
+    return{
+        type : GET_EVENT_BY_MONTHS,
         payload: request
     }
 }

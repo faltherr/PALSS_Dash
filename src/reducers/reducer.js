@@ -1,8 +1,8 @@
 
-import { GET_EVENTS, CREATE_EVENT, DELETE_EVENT, EDIT_EVENT } from '../Actions/api_index'
+import { GET_EVENTS, CREATE_EVENT, DELETE_EVENT, EDIT_EVENT, GET_EVENT_BY_MONTHS } from '../Actions/api_index'
 import { FETCH_WEATHER } from '../Actions/weather_fetcher'
-import {GET_USER, LOGOUT_USER} from '../Actions/authentication'
-import {FILTER_EVENTS} from '../Actions/event_handlers'
+import { GET_USER, LOGOUT_USER } from '../Actions/authentication'
+import { FILTER_EVENTS } from '../Actions/event_handlers'
 
 let initialState = {
     //Events is an array that contains all of the events
@@ -60,6 +60,25 @@ export default function reducer(state = initialState, action) {
                 events: [],
                 errorMessage: action.payload
             }
+
+        //Read events by time before current date
+
+        case GET_EVENT_BY_MONTHS + PENDING:
+            return { ...state };
+        case GET_EVENT_BY_MONTHS + FULFILLED:
+            return {
+                ...state,
+                eventsTruth: action.payload.data,
+                events: action.payload.data,
+                errorMessage: ''
+            }
+        case GET_EVENT_BY_MONTHS + REJECTED:
+            return {
+                ...state,
+                events: [],
+                errorMessage: action.payload
+            }
+
 
         //Create new event
         case CREATE_EVENT + PENDING:
@@ -126,13 +145,13 @@ export default function reducer(state = initialState, action) {
                 forecast: [],
                 errorMessage: action.payload
             }
-        
+
         // Authentication
 
         case GET_USER + FULFILLED:
             // console.log('This is the authentication payload', action.payload)
             return { ...state, user_data: action.payload.data }
-        
+
         case LOGOUT_USER + FULFILLED:
             return { ...state, user_data: null }
 
@@ -142,6 +161,6 @@ export default function reducer(state = initialState, action) {
         // Event Array Filtera
 
         case FILTER_EVENTS:
-            return {...state, events: action.payload}
+            return { ...state, events: action.payload }
     }
 }

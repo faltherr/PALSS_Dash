@@ -1,9 +1,19 @@
 module.exports = {
     getIncidents: (req, res) => {
             let db = req.app.get('db')
+            var filterDecision
             // console.log(db)
-            db.get_incidents()
-            .then(response => res.status(200).send(response))
+            if(req.query.months) {
+                let months = decodeURI(req.query.months)
+                if(months === 'allTime') {
+                    filterDecision = db.get_all_time_incidents()
+                } else {
+                    filterDecision = db.get_incidents_by_time({months})
+                }
+            } else {
+                filterDecision = db.get_incidents()
+            }
+            filterDecision.then(response => res.status(200).send(response))
             // .catch (err => {
             // res.status(500).send({erorMessage: "Error fetching data"})
             // console.log(err)
