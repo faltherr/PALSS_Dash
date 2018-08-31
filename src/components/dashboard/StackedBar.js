@@ -20,15 +20,13 @@ class StackedBarChart extends Component {
     constructor() {
         super()
         this.state = {
-            finishedCalculations: false,
             transformedData: []
         }
     }
 
     componentDidUpdate(prevProps) {
         const { events } = this.props
-        const { finishedCalculations } = this.state
-        if (events.length && !finishedCalculations) {
+        if (events.length !== prevProps.events.length ) {
             // console.log("enevts update", events)
 
             let eventsClone = _.clone(events)
@@ -79,22 +77,18 @@ class StackedBarChart extends Component {
                 data3.push(object)
                 // console.log(data3)
                 this.setState({
-                    transformedData: data3,
-                    finishedCalculations: true
-                })
-
+                    transformedData: data3,                })
             }
-
         }
     }
 
     render() {
         let { errorMessage } = this.props
-        let { finishedCalculations, transformedData } = this.state
+        let { transformedData } = this.state
         // console.log(finishedCalculations)
         // console.log(transformedData)
         return (
-            finishedCalculations
+            transformedData.length
                 ?
                 <div id="container">
                     {/* {this.eventData()} */}

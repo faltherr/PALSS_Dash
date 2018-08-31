@@ -19,7 +19,6 @@ class DonutChart extends Component {
     constructor() {
         super()
         this.state = {
-            finishedCalculations: false,
             transformedData: []
         }
     }
@@ -27,8 +26,8 @@ class DonutChart extends Component {
     componentDidUpdate(prevProps) {
         // console.log(colors)
         const { events } = this.props
-        const { finishedCalculations } = this.state
-        if (events.length && !finishedCalculations) {
+        if (events.length !== prevProps.events.length) {
+            //To add on OR this.state.prevtype doe not equal the prevType
             // console.log("Events in donut chart", events)
             // console.log(this.props.eventsFiltered)
 
@@ -47,8 +46,7 @@ class DonutChart extends Component {
             })
             // console.log('DonutChartData', DonutChartData)
             this.setState({
-                transformedData: DonutChartData,
-                finishedCalculations: true
+                transformedData: DonutChartData
             })
             // console.log('Is data returned?', this.state.transformedData)
         }
@@ -57,9 +55,9 @@ class DonutChart extends Component {
     render() {
         // console.log('Is data returned?', this.state)
         let { errorMessage } = this.props
-        let { finishedCalculations, transformedData } = this.state
+        let {transformedData } = this.state
         return (
-            finishedCalculations
+            transformedData.length
                 ?
                 <div>
                     <Donut data={transformedData} colorSchema={colors.colorSchemas.purple}/>
