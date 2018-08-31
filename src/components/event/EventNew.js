@@ -5,10 +5,68 @@ import { connect } from 'react-redux'
 import renderDatePicker from './DatePicker'
 import moment from 'moment';
 import { Link } from 'react-router-dom'
+import { uniqueFactorsArr, uniqueJobsArr, uniqueLocationsArr } from '../dashboard/UniqueData'
+
+const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+    return (
+    <div>
+      <label>{label}</label>
+      <div>
+        <input {...input} placeholder={label} type={type}/>
+        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+      </div>
+    </div>
+  )}
+
+const renderSelectField = ({ input, label, type, meta: { touched, error }, children }) => (
+    <div>
+      <label>{label}</label>
+      <div>
+        <select {...input}>
+          {children}
+        </select>
+        {touched && error && <span>{error}</span>}
+      </div>
+    </div>
+  )
+
+  //Synchronous validation
+  const validate = values => {
+    const errors = {}
+    if (!values.eventdate) {
+      errors.eventdate = 'Required: Please enter a date in the MM/DD/YYYY format'
+    }
+    if (!values.tabldg) {
+      errors.tabldg = 'Required: Please enter a location in a 2 digit TA, 4 digit building format'
+    } else if (!/^\d{2}\-\d{4}$/.test(values.tabldg)) {
+      errors.tabldg = 'Please enter a location in a 2 digit TA, 4 digit building format'
+    }
+    if (!values.factors) {
+      errors.factors = 'Please enter the primary cause of the incident'
+    }  
+    if (!values.jobtitle) {
+      errors.jobtitle = 'Required: Please enter the job title of the injured person'
+    }
+    if (!values.bodyparts) {
+        errors.bodyparts = 'Please enter the injured body part of the person'
+    }
+    if (!values.description) {
+        errors.description = 'Please enter a description of the incident'
+    }
+    return errors
+  }
+  
+const required = value => value ? undefined : 'Required: Please enter NA if unknown'
+const requiredDate = value => value ? undefined : 'Required: Please enter a date in the MM/DD/YYYY format'
+const requireJob = value => value ? undefined : 'Required: Please enter the job title of the injured person'
+const requireFactors = value => value ? undefined : 'Please enter the primary cause of the incident'
+const requireLocation = value => value ? undefined : 'Required: Please enter a location in a 2 digit TA, 4 digit building format'
 
 
 let EventFormFunc = props => {
     // Configuration objects
+
+    console.log('we got this!', props)
     const { eventdate,
         tabldg,
         jobtitle,
@@ -17,8 +75,13 @@ let EventFormFunc = props => {
         description } = props.fields
 
     const { handleSubmit } = props
+  
+    const maxLength = max => value =>
+            value && value.length > max ? `Must be ${max} characters or less` : undefined
+    const maxLength15 = maxLength(15)
 
     let onSubmit = (formData) => {
+        console.log(2)
         // console.log("The form's payload", props)
         props.createEvent(formData).then(res => {
             props.history.push('/Dashboard')
@@ -26,7 +89,6 @@ let EventFormFunc = props => {
     }
 
     return (
-
         <div className='new-form-container'>
             <form onSubmit={handleSubmit(onSubmit)} className='new-main-form'>
                 <h3 className='new-event-form-header'> Record a New Incident </h3>
@@ -46,50 +108,40 @@ let EventFormFunc = props => {
                         normalize={value => (value ? moment(value).format('M/D/YY') : null)}
                         component={renderDatePicker}
                         {...eventdate}
+                        validate ={[requiredDate]}
                     />
                 </div>
 
                 <div className='form-group'>
-                    <label>TA - BLDG </label>
+                    <label> Location (TA - BLDG) </label>
                     {/* Pass configuration object into the input with {...TaBldg} */}
-                    <Field name="tabldg" type="text" className="form-control" component="input" {...tabldg} placeholder='i.e. 03-4300' />
-                </div>
-
-                <div className='form-group'>
-                    <label>JobTitle </label>
-                    <Field name="jobtitle" type="text" className="form-control" component="select" {...jobtitle} >
-                        <option />
-                        <option value='PLANNER'> Planner </option>
-                        <option value='ARCHITECT'> Architect </option>
-                        <option value='STAFF MEMBER'> Staff Member </option>
-                        <option value='ENGINEER'> Engineer </option>
-                        <option value='GRADUATE STUDENT SA'> Graduate Student </option>
-                        <option value='PIPE FITTER'> Pipe Fitter </option>
-                        <option value='RESEARCH TEC'> Research Tecnnician </option>
-                        <option value='DRIVER'> Driver </option>
-                        <option value='MACHINIST'> Machinist </option>
-                        <option value='ACCOUNTANT'> Accountant </option>
-                        <option value='HEALTH AND SAFETY TE'> Health and Safety Technician </option>
-                        <option value='HR ASSISTANT'> HR Assistant </option>
-                        <option value='NUCLEAR MATERIALS SP'> Nuclear Materials Specialist </option>
-                        <option value='INSPECTOR'> Inspector </option>
-                        <option value='PROGRAM DIRECTOR'> Program Director </option>
+                    <Field name="tabldg" className="form-control" component={renderSelectField} {...tabldg} placeholder='i.e. 03-4300' validate ={[requireLocation]}>
+                    {uniqueLocationsArr.map(option=> <option value={option}>{option}</option>)}
                     </Field>
                 </div>
 
                 <div className='form-group'>
-                    <label>Factors 1 </label>
-                    <Field name="factors1" type="text" className="form-control" component="input" {...factors1} />
+                    <label>JobTitle </label>
+                    <Field name="jobtitle" className="form-control" component={renderSelectField} {...jobtitle} validate ={[requireJob]}>
+                        {uniqueJobsArr.map(option=> <option value={option}>{option}</option>)}
+                    </Field>
                 </div>
 
                 <div className='form-group'>
-                    <label>Body Parts </label>
-                    <Field name="bodyparts" type="text" className="form-control" component="input" {...bodyparts} />
+                    <label>Factors </label>
+                    <Field name="factors1" className="form-control" component={renderSelectField} validate ={[requireFactors]}>
+                        { uniqueFactorsArr.map(option => <option value={option}>{option}</option>) }
+                    </Field>
+                </div>
+
+                <div className='form-group'>
+                    <label>Body Parts Injured </label>
+                    <Field name="bodyparts" type="text" className="form-control" component={renderField} {...bodyparts} validate ={[required]} />
                 </div>
 
                 <div className='form-group'>
                     <label>Description </label>
-                    <Field name="description" type='textarea' className="form-control" component="input" {...description} />
+                    <Field name="description" type='textarea' className="form-control" component={renderField} {...description} validate ={[required]} />
                 </div>
 
                 <div className='new-form-button-container'>
@@ -99,7 +151,6 @@ let EventFormFunc = props => {
                     </Link>
                 </div>
             </form>
-
         </div>
     )
 }
@@ -111,18 +162,27 @@ let EventFormFunc = props => {
 //     }
 //     return errors;
 // }
+function mapStateToProps(state) {
+    return {
+        initialValues: state.initialValues
+    }
+}
 
-let connectedForm = connect(null, { createEvent })(EventFormFunc)
-let EventForm = reduxForm({
+let formbaby = reduxForm({
     //Name the form
-    form: 'EventNew',
+    form: 'eventnew',
     //Declare the fields that the form will contain
-    fields: ['eventdate',
+    // fields: [
+        //     'factors1']
+        fields: ['eventdate',
         'tabldg',
         'jobtitle',
         'factors1',
         'bodyparts',
-        'description']
-})(connectedForm)
+        'description'],
+    validate
+    })(EventFormFunc)
+    
+let connectedForm = connect(mapStateToProps, { createEvent })(formbaby)
 
-export default EventForm
+export default connectedForm

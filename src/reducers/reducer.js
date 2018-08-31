@@ -21,7 +21,8 @@ let initialState = {
     factors1Filter: '',
     bodyparts: '',
     forecast: [],
-    user_data: null
+    user_data: null,
+    initialValues: ''
 }
 
 const FULFILLED = '_FULFILLED'
@@ -36,9 +37,10 @@ const REJECTED = '_REJECTED'
 // const ADD_BODYPARTS = 'ADD_BODYPARTS'
 
 export default function reducer(state = initialState, action) {
+    console.log(11111112312321, action)
     // console.log('The action', action.type)
-    console.log('action.payload', action.payload)
-    console.log('action', action)
+    // console.log('action.payload', action.payload)
+    // console.log('action', action)
     switch (action.type) {
 
         //API Endpoint Events

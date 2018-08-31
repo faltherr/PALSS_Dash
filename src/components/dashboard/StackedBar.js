@@ -31,15 +31,15 @@ class StackedBarChart extends Component {
 
             let eventsClone = _.clone(events)
             let monthYear = eventsClone.map(data => {
-                let date = data['date'].split('/')
-                date.splice(1, 1)
-                data.month = +date[0]
-                data.year = +date[1]
-                data['date'] = date.join('/')
+                let new_date = data['date'].split('/')
+                new_date.splice(1, 1)
+                data.month = +new_date[0]
+                data.year = +new_date[1]
+                data['new_date'] = new_date.join('/')
                 return data
             })
             let sorted = _.sortBy(monthYear, ['year', 'month'])
-            sorted = _.groupBy(sorted, o => o['date'])
+            sorted = _.groupBy(sorted, o => o['new_date'])
 
             // console.log('Events sorted', sorted)
             // console.log('Stacked Bar component', events)
@@ -77,7 +77,8 @@ class StackedBarChart extends Component {
                 data3.push(object)
                 // console.log(data3)
                 this.setState({
-                    transformedData: data3,                })
+                    transformedData: data3
+                })
             }
         }
     }

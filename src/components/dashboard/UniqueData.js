@@ -2494,4 +2494,4 @@ let uniqueFactors = makeObjects(uniqueFactorsArr)
 let uniqueLocations = makeObjects(uniqueLocationsArr)
 let uniqueJobs = makeObjects(uniqueJobsArr)
 
-export { uniqueLocations, uniqueFactors, uniqueJobs, uniqueTimes }
+export { uniqueLocations, uniqueFactors, uniqueJobs, uniqueTimes, uniqueFactorsArr, uniqueJobsArr, uniqueLocationsArr}
