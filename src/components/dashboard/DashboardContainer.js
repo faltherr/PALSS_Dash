@@ -7,8 +7,11 @@ import SimpleMap from './Map';
 import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
 import { getUser, logout } from '../../Actions/authentication'
+import {filterEvents} from '../../Actions/event_handlers'
 import { uniqueLocations, uniqueFactors, uniqueJobs } from './UniqueData'
 import Select from 'react-select'
+
+var _ = require('lodash');
 
 // import LineChart from './TimeSeries'
 
@@ -16,10 +19,12 @@ class DashboardContainer extends Component {
     constructor() {
         super()
         this.state = {
+            preFilterArr: [],
             locationFilterString: '',
             factorsFilterString: '',
             jobsFilterString: '',
-            descriptionFilterString: ''
+            descriptionFilterString: '',
+            performFilter: false
         }
     }
 
@@ -27,9 +32,172 @@ class DashboardContainer extends Component {
         this.props.getUser()
     }
 
+    handleChangeLocation = (inputVar) => {
+        this.setState({
+            locationFilterString: inputVar.value
+        })
+    }
+
+    handleChangeFactors = (inputVar) => {
+        this.setState({
+            factorsFilterString: inputVar.value
+        })
+    }
+
+    handleChangeJob = (inputVar) => {
+        this.setState({
+            jobsFilterString: inputVar.value
+        })
+    }
+
+    handleChangeDescription(event) {
+        this.setState({
+            descriptionFilterString: event
+        })
+    }
+    componentDidUpdate(prevProps, prevState) {
+        // console.log(this.props.events)
+        const { locationFilterString, factorsFilterString, jobsFilterString, descriptionFilterString } = this.state
+
+        //step 1 
+        //set a performFilter variable to false initially
+        //do a check on each part of state that is a search input using this sort of logic 
+        //prevState.locationFilterString !== locationFilterString 
+        //flip performFilter
+        let needsFilter = false;
+
+        if (prevState.locationFilterString !== locationFilterString || prevState.factorsFilterString !== factorsFilterString || prevState.jobsFilterString !== jobsFilterString || prevState.descriptionFilterString !== descriptionFilterString) {
+            needsFilter = true;
+        }
+
+        // console.log(this.state.performFilter)
+        //Step 2 
+        //set all of your boolean filter variables such as locationFilter, jobFilter e.t.c 
+        //For each filter input in state check if the value is empty or not 
+        //if the value is not empty, you need to include in filter so set locationFilter = true for instance if locationString was not empty
+
+        // let factorsFilter, jobsFilter, descriptionFilter
+
+
+        let locationFilter = locationFilterString ? true : false
+        let factorsFilter = factorsFilterString ? true : false
+        let jobsFilter = jobsFilterString ? true : false
+        let descriptionFilter = descriptionFilterString ? true : false
+
+        // console.log('location filter', descriptionFilter)
+
+        // Step 3 --> Magic!!!
+        //locationFilter, factorsFilter,  jobsFilter, descriptionFilter 
+        let performFilter = () => {
+
+            let preFilterArr = this.props.eventsTruth.slice()
+
+            let filter = _.filter(preFilterArr, (o) => {
+
+                if (locationFilter) {
+                    if (!_.includes(o.tabuilding, locationFilterString)) return false
+                }
+
+                if (factorsFilter) {
+                    if (!_.includes(o.factors1, factorsFilterString)) return false
+                }
+
+                if (jobsFilter) {
+                    if (!_.includes(o.jobtitle, jobsFilterString)) return false
+                }
+                if (descriptionFilter) {
+                    if (!_.includes(o.description, descriptionFilterString)) return false
+                }
+                return true;
+
+            });
+
+            // Will this fail to change state if length is the same?????
+            // What other logic would work to break out of the componentDidUpdate method
+            // if (this.state.preFilterArr.length !== filter.length){
+
+
+            this.props.filterEvents(filter)
+
+            // }
+
+        }
+        if(needsFilter) performFilter()
+
+        // I don't know where to put the action creator event so that it fires when the state changes but does not fire when the array is empty (This will disrupt other components)
+        // if (this.state.preFilterArr.length !== this.props.events.length){
+        //     this.props.filterEvents(this.state.preFilterArr)
+        // }
+    }
+
+
+
+
+
+
+    // let locationFilter, jobFilter;
+    // if(prevState.locationFilterString !== locationFilterString) locationFilter = true
+    // if(prevState.jobsFilterString !== jobsFilterString) jobFilter = true
+    // performFilter(locationFilter, jobFilter)
+
+
+
+    //     if (prevProps.events.length !== this.props.events.length) {
+    //         this.setState({ preFilterArr: this.props.events })
+    //     }
+    //     // if (locationFilterString || factorsFilterString || jobsFilterString || descriptionFilterString){
+    //     if (prevState.locationFilterString !== locationFilterString) {
+    //         let preFilterArr = this.props.events.slice()
+    //         if (locationFilterString) {
+    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.tabuilding, locationFilterString));
+    //             // let filter = preFilterArr.filter(o => o.tabuilding.includes(locationFilterString))
+    //             this.setState({
+    //                 preFilterArr: filter
+    //             })
+    //         }
+    //     }
+    //     if (prevState.factorsFilterString !== factorsFilterString) {
+    //         let preFilterArr = this.props.events.slice()
+    //         if (factorsFilterString) {
+    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.factors1, factorsFilterString));
+    //             this.setState({
+    //                 preFilterArr: filter
+    //             })
+    //             console.log('filter by factors', filter)
+
+    //         }
+    //     }
+    //     if (prevState.jobsFilterString !== jobsFilterString) {
+    //         let preFilterArr = this.props.events.slice()
+    //         if (jobsFilterString) {
+    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.jobtitle, jobsFilterString));
+    //             this.setState({
+    //                 preFilterArr: filter
+    //             })
+    //         }
+    //     }
+    //     if (prevState.descriptionFilterString !== descriptionFilterString) {
+    //         let preFilterArr = this.props.events.slice()
+    //         if (descriptionFilterString) {
+    //             let filter = _.filter(preFilterArr, (o) => _.includes(o.description, descriptionFilterString));
+    //             console.log('filter by description', filter)
+    //             this.setState({
+    //                 preFilterArr: filter
+    //             })
+    //         }
+    //     }
+    //     console.log('Prefiltered array', this.state.preFilterArr)
+    // }
+
     render() {
         // console.log(this.props.user_data)
         // console.log(uniqueLocations)
+        // console.log(this.state.eventsToFilter)
+        // console.log(this.state.descriptionFilterString)
+        const { locationFilterString, factorsFilterString, jobsFilterString } = this.state
+        console.log("STATE", this.state)
+        console.log('location filter string', locationFilterString)
+        console.log('Job filter string', jobsFilterString)
         return (
             <div className="main-dashboard-container">
                 <div className='dashboard-header'>
@@ -80,28 +248,39 @@ class DashboardContainer extends Component {
                     <div className="filter-container">
                         <p> Filter by location: </p>
                         <Select
+                            value={{ value: locationFilterString, label: locationFilterString }}
                             options={uniqueLocations}
-                            placeholder={'Search by building'}
+                            onChange={this.handleChangeLocation}
                             className='dashboard-filter-bar'
+                            // clearable={true}
+                            placeholder={'Select...'}
                         />
                     </div>
                     <div className="filter-container">
                         <p> Filter by factors: </p>
-                        <Select 
-                        options={uniqueFactors} 
-                        className='dashboard-filter-bar'
+                        <Select
+                            value={{ value: factorsFilterString, label: factorsFilterString }}
+                            options={uniqueFactors}
+                            onChange={this.handleChangeFactors}
+                            className='dashboard-filter-bar'
+                            clearable={true}
+                            placeholder={'Select...'}
                         />
                     </div>
                     <div className="filter-container">
                         <p> Filter by job: </p>
-                        <Select 
-                        options={uniqueJobs} 
-                        className='dashboard-filter-bar'
+                        <Select
+                            value={{ value: jobsFilterString, label: jobsFilterString }}
+                            options={uniqueJobs}
+                            onChange={this.handleChangeJob}
+                            className='dashboard-filter-bar'
+                            clearable={true}
+                            placeholder={'Select...'}
                         />
                     </div>
                     <div className="filter-container">
                         <p> Search description: </p>
-                        <input />
+                        <input onChange={(e) => this.handleChangeDescription(e.target.value)} placeholder='Search...' />
                     </div>
                 </div>
                 <div className="forecast-counter-table-wrapper">
@@ -139,9 +318,10 @@ class DashboardContainer extends Component {
 function mapStateToProps(state) {
     // console.log("State", state)
     return {
-        user_data: state.reducer.user_data
+        user_data: state.reducer.user_data,
+        eventsTruth: state.reducer.eventsTruth
     }
 }
 
 
-export default connect(mapStateToProps, { getUser, logout })(DashboardContainer)
+export default connect(mapStateToProps, { getUser, logout, filterEvents })(DashboardContainer)

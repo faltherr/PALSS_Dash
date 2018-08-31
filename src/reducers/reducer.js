@@ -2,10 +2,11 @@
 import { GET_EVENTS, CREATE_EVENT, DELETE_EVENT, EDIT_EVENT } from '../Actions/api_index'
 import { FETCH_WEATHER } from '../Actions/weather_fetcher'
 import {GET_USER, LOGOUT_USER} from '../Actions/authentication'
+import {FILTER_EVENTS} from '../Actions/event_handlers'
 
 let initialState = {
     //Events is an array that contains all of the events
-    eventTruth: [],
+    eventsTruth: [],
     events: [],
     errorMessage: '',
     //singleEvent will hold the currently selected event
@@ -36,7 +37,8 @@ const REJECTED = '_REJECTED'
 
 export default function reducer(state = initialState, action) {
     // console.log('The action', action.type)
-    // console.log('action.payload.data', action.payload)
+    console.log('action.payload', action.payload)
+    console.log('action', action)
     switch (action.type) {
 
         //API Endpoint Events
@@ -48,7 +50,7 @@ export default function reducer(state = initialState, action) {
         case GET_EVENTS + FULFILLED:
             return {
                 ...state,
-                eventTruth: action.payload.data,
+                eventsTruth: action.payload.data,
                 events: action.payload.data,
                 errorMessage: ''
             }
@@ -136,5 +138,10 @@ export default function reducer(state = initialState, action) {
 
         default:
             return state;
+
+        // Event Array Filtera
+
+        case FILTER_EVENTS:
+            return {...state, events: action.payload}
     }
 }
