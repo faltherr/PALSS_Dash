@@ -3,8 +3,92 @@ import { Field, reduxForm } from 'redux-form'
 import { editEvent } from '../../Actions/api_index'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { uniqueFactorsArr, uniqueJobsArr, uniqueLocationsArr } from './UniqueData'
+
+// Here we handle the form validation
+
+const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+    return (
+    <div>
+      <label>{label}</label>
+      <div>
+        <input {...input} placeholder={label} type={type}/>
+        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+      </div>
+    </div>
+  )}
+
+const renderSelectField = ({ input, label, type, meta: { touched, error }, children }) => (
+    <div>
+      <label>{label}</label>
+      <div>
+        <select {...input}>
+          {children}
+        </select>
+        {touched && error && <span>{error}</span>}
+      </div>
+    </div>
+  )
+
+      //Synchronous validation
+      const validate = (values) => {
+        const errors = {}
+        if (!values.Date) {
+          errors.Date = 'Required: Please enter a date in the MM/DD/YYYY format'
+        }
+        if (!values.TABuilding) {
+          errors.TABuilding = 'Required: Please enter a location in a 2 digit TA, 4 digit building format'
+        } else if (!/^\d{2}-\d{4}$/.test(values.TABuilding)) {
+          errors.TABuilding = 'Please enter a location in a 2 digit TA, 4 digit building format'
+        }
+        if (!values.Factors1) {
+          errors.Factors1 = 'Please enter the primary cause of the incident'
+        }  
+        if (!values.JobTitle) {
+          errors.JobTitle = 'Required: Please enter the job title of the injured person'
+        }
+        if (!values.BodyParts) {
+            errors.BodyParts = 'Please enter the injured body part of the person'
+        }
+        if (!values.Description) {
+            errors.Description = 'Please enter a description of the incident'
+        }
+        return errors
+      }
+
+// This is the event form functional component 
 
 class EditEventFormFunc extends Component {
+
+
+    // This code block fills the input forms with the event's data
+    componentDidMount(){
+        this.handleInitialize()
+    }
+
+    handleInitialize(){
+        const initData = {
+            "Date": this.props.date,
+            "TABuilding": this.props.tabuilding, 
+            "JobTitle": this.props.jobtitle,
+            "Factors1": this.props.factors1,
+            "BodyParts": this.props.bodyparts,
+            "Description": this.props.description
+        }
+        this.props.initialize(initData)
+        console.log(initData)
+    }
+
+    
+
+      
+    // const required = value => value ? undefined : 'Required: Please enter NA if unknown'
+    // const requiredDate = value => value ? undefined : 'Required: Please enter a date in the MM/DD/YYYY format'
+    // const requireJob = value => value ? undefined : 'Required: Please enter the job title of the injured person'
+    // const requireFactors = value => value ? undefined : 'Please enter the primary cause of the incident'
+    // const requireLocation = value => value ? undefined : 'Required: Please enter a location in a 2 digit TA, 4 digit building format'
+    
+
 
     onSubmit = (formProps, id) => {
         console.log('Events', this.props)
@@ -18,17 +102,19 @@ class EditEventFormFunc extends Component {
     }
     render (){
         const {handleSubmit} = this.props
-
+        console.log(this.props)
     return (
         <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
                 <label> TA-Building </label>
                 <Field
-                name="TABuilding"
-                type="text"
-                component="input"
-                autoComplete="none"
-                />
+                    name="TABuilding"
+                    type="text"
+                    component={renderSelectField}
+                >
+                    <option value=''> Select a value... </option>
+                    {uniqueLocationsArr.map(option=> <option value={option} key={option}>{option}</option>)}
+                </Field>
             </fieldset>
 
 
@@ -37,11 +123,9 @@ class EditEventFormFunc extends Component {
                 <br/>
                 <Field
                 name="JobTitle"
-                component="select">
-                <option></option>
-                <option value="Engineer">Engineer</option>
-                <option value="Manager">Manger</option>
-                <option value="GraphicArtist"> Graphic Artist </option>
+                component={renderSelectField}>
+                    <option value=''> Select a value... </option>
+                    {uniqueJobsArr.map(option=> <option value={option} key={option}>{option}</option>)}
                 </Field>
             </fieldset>
 
@@ -51,9 +135,12 @@ class EditEventFormFunc extends Component {
                 <Field
                 name="Factors1"
                 type="text"
-                component="input"
+                component={renderSelectField}
                 autoComplete="none"
-                />
+                >
+                    <option value=''> Select a value... </option>
+                    {uniqueFactorsArr.map(option=> <option value={option} key={option}>{option}</option>)}
+                </Field>
             </fieldset>
 
             <fieldset>
@@ -61,7 +148,7 @@ class EditEventFormFunc extends Component {
                 <Field
                 name="BodyParts"
                 type="text"
-                component="input"
+                component={renderField}
                 autoComplete="none"
                 />
             </fieldset>
@@ -71,7 +158,7 @@ class EditEventFormFunc extends Component {
                 <Field
                 name="Description"
                 type="text"
-                component="input"
+                component={renderField}
                 autoComplete="none"
                 />
             </fieldset>
@@ -93,5 +180,5 @@ function mapStateToProps(state) {
 
 export default compose(
     connect(mapStateToProps, {editEvent}),
-    reduxForm({ form: 'editForm' })
+    reduxForm({ form: 'editForm', validate })
 )(EditEventFormFunc)

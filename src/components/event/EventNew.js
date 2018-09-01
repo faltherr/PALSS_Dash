@@ -34,24 +34,24 @@ const renderSelectField = ({ input, label, type, meta: { touched, error }, child
   const validate = values => {
     const errors = {}
     if (!values.eventdate) {
-      errors.eventdate = 'Required: Please enter a date in the MM/DD/YYYY format'
+      errors.eventdate = 'Required'
     }
     if (!values.tabldg) {
-      errors.tabldg = 'Required: Please enter a location in a 2 digit TA, 4 digit building format'
-    } else if (!/^\d{2}\-\d{4}$/.test(values.tabldg)) {
+      errors.tabldg = 'Required'
+    } else if (!/^\d{2}-\d{4}$/.test(values.tabldg)) {
       errors.tabldg = 'Please enter a location in a 2 digit TA, 4 digit building format'
     }
     if (!values.factors) {
-      errors.factors = 'Please enter the primary cause of the incident'
+      errors.factors = 'Required'
     }  
     if (!values.jobtitle) {
-      errors.jobtitle = 'Required: Please enter the job title of the injured person'
+      errors.jobtitle = 'Required'
     }
     if (!values.bodyparts) {
-        errors.bodyparts = 'Please enter the injured body part of the person'
+        errors.bodyparts = 'Required'
     }
     if (!values.description) {
-        errors.description = 'Please enter a description of the incident'
+        errors.description = 'Required'
     }
     return errors
   }
@@ -75,10 +75,6 @@ let EventFormFunc = props => {
         description } = props.fields
 
     const { handleSubmit } = props
-  
-    const maxLength = max => value =>
-            value && value.length > max ? `Must be ${max} characters or less` : undefined
-    const maxLength15 = maxLength(15)
 
     let onSubmit = (formData) => {
         console.log(2)
@@ -116,6 +112,7 @@ let EventFormFunc = props => {
                     <label> Location (TA - BLDG) </label>
                     {/* Pass configuration object into the input with {...TaBldg} */}
                     <Field name="tabldg" className="form-control" component={renderSelectField} {...tabldg} placeholder='i.e. 03-4300' validate ={[requireLocation]}>
+                    <option value=''> Select a value... </option>
                     {uniqueLocationsArr.map(option=> <option value={option}>{option}</option>)}
                     </Field>
                 </div>
@@ -123,13 +120,15 @@ let EventFormFunc = props => {
                 <div className='form-group'>
                     <label>JobTitle </label>
                     <Field name="jobtitle" className="form-control" component={renderSelectField} {...jobtitle} validate ={[requireJob]}>
+                        <option value=''> Select a value... </option>
                         {uniqueJobsArr.map(option=> <option value={option}>{option}</option>)}
                     </Field>
                 </div>
 
                 <div className='form-group'>
                     <label>Factors </label>
-                    <Field name="factors1" className="form-control" component={renderSelectField} validate ={[requireFactors]}>
+                    <Field name="factors1" className="form-control" component={renderSelectField} {...factors1} validate ={[requireFactors]}>
+                    <option value=''> Select a value... </option>
                         { uniqueFactorsArr.map(option => <option value={option}>{option}</option>) }
                     </Field>
                 </div>

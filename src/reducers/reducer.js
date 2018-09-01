@@ -37,7 +37,7 @@ const REJECTED = '_REJECTED'
 // const ADD_BODYPARTS = 'ADD_BODYPARTS'
 
 export default function reducer(state = initialState, action) {
-    console.log(11111112312321, action)
+    // console.log(11111112312321, action)
     // console.log('The action', action.type)
     // console.log('action.payload', action.payload)
     // console.log('action', action)

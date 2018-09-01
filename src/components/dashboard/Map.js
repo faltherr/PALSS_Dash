@@ -61,9 +61,9 @@ class SimpleMap extends Component {
     createMarkers(events) {
 
         const { openedit, opendelete } = this.state
-        // console.log('Events in mapjs', events)
+        console.log('Events in mapjs', events)
         return events.map(event => {
-            let { latitude: lat, longitude: lon, id, date, tabuilding } = event
+            let { latitude: lat, longitude: lon, id, date, tabuilding, jobtitle, factors1, bodyparts, description } = event
             return lat && lon &&
                 <Marker position={[lat, lon]} key={id}>
                     <Popup>
@@ -84,7 +84,7 @@ class SimpleMap extends Component {
                                         <button onClick={() => this.onOpenModal('edit')} className='btn btn-primary'>Edit</button>
                                         <Modal open={openedit} onClose={() => this.onCloseModal('edit')} center>
                                             <div className="edit-form">
-                                                <EditEvent id={id} closeModal={this.onCloseModal} />
+                                                <EditEvent id={id} tabuilding={tabuilding} date={date} jobtitle={jobtitle} factors1={factors1} bodyparts={bodyparts} description={description}  closeModal={this.onCloseModal} />
                                             </div>
                                         </Modal>
 
