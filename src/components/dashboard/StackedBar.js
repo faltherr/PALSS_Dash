@@ -88,6 +88,7 @@ class StackedBarChart extends Component {
         let { transformedData } = this.state
         // console.log(finishedCalculations)
         // console.log(transformedData)
+        if (this.props.activeChart === 'stacked_bar'){
         return (
             transformedData.length
                 ?
@@ -130,13 +131,17 @@ class StackedBarChart extends Component {
                         className={override}
                         color={'#656665'} />
         )
+    } else {
+        return null
+    }
 
     }
 }
 
 function mapStateToProps(state) {
     return {
-        events: state.reducer.events
+        events: state.reducer.events,
+        activeChart: state.reducer.activeChart
     }
 }
 

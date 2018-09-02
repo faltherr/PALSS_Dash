@@ -8,7 +8,7 @@ import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
 import {getEventsByTime} from '../../Actions/api_index'
 import { getUser, logout } from '../../Actions/authentication'
-import {filterEvents} from '../../Actions/event_handlers'
+import {filterEvents, chartSelect} from '../../Actions/event_handlers'
 import { uniqueLocations, uniqueFactors, uniqueJobs, uniqueTimes } from './UniqueData'
 import Select from 'react-select'
 import LineChart from './LineChart'
@@ -26,7 +26,7 @@ class DashboardContainer extends Component {
             factorsFilterString: '',
             jobsFilterString: '',
             descriptionFilterString: '',
-            performFilter: false
+            performFilter: false,
         }
     }
 
@@ -57,6 +57,11 @@ class DashboardContainer extends Component {
             descriptionFilterString: event
         })
     }
+
+    changeChart = (event) => {
+        this.props.chartSelect(event.target.value)  
+    }
+
     componentDidUpdate(prevProps, prevState) {
         // console.log(this.props.events)
         const { locationFilterString, factorsFilterString, jobsFilterString, descriptionFilterString } = this.state
@@ -108,7 +113,7 @@ class DashboardContainer extends Component {
                     if (!_.includes(o.jobtitle, jobsFilterString)) return false
                 }
                 if (descriptionFilter) {
-                    if (!_.includes(o.description, descriptionFilterString)) return false
+                    if (!_.includes(o.description.toLowerCase(), descriptionFilterString)) return false
                 }
                 return true;
 
@@ -126,6 +131,7 @@ class DashboardContainer extends Component {
         // console.log("STATE", this.state)
         // console.log('location filter string', locationFilterString)
         // console.log('Job filter string', jobsFilterString)
+        console.log('Selected chart', this.state.activeChart)
         const { locationFilterString, factorsFilterString, jobsFilterString } = this.state
         return (
             <div className="main-dashboard-container">
@@ -223,6 +229,7 @@ class DashboardContainer extends Component {
                     </div>
 
                     <div className='event-counter' >
+                        <p className='donut-chart-label'> Factors Involved in Incidents </p>
                         <DonutChart />
                     </div>
 
@@ -234,8 +241,16 @@ class DashboardContainer extends Component {
                     </div>
 
                     <div className='time-series-graph'>
-                        {/* <StackedBarChart id="container" /> */}
+                        <select className='chart-selector' onChange= {this.changeChart}>
+                            <option value='stacked_bar'> Stacked Bar Chart </option>
+                            <option value='line_chart'> Line Chart </option>
+                        </select>
+                        <div className='stacked-bar-container'>
+                        <StackedBarChart id="container" />
+                        </div>
+                        <div className='line-chart-container'>
                         <LineChart events = {this.props.eventsTruth} />
+                        </div>
                     </div>
                 </div>
 
@@ -253,4 +268,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { getUser, logout, filterEvents, getEventsByTime })(DashboardContainer)
+export default connect(mapStateToProps, { getUser, logout, filterEvents, getEventsByTime, chartSelect })(DashboardContainer)

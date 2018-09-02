@@ -1,23 +1,62 @@
 import React, { Component } from 'react'
-import { fetchWeather } from '../../Actions/weather_fetcher'
+import { fetchWeather, fetchDarkSky } from '../../Actions/weather_fetcher'
 import { connect } from 'react-redux'
 import Loading from 'react-loading-animation'
-
-//precip icon
-// {/* <i class="fas fa-tint"></i> */}
-//sun icon
-//<i class="fas fa-sun"></i>
 
 class WeatherForecast extends Component {
 
     componentDidMount() {
         this.props.fetchWeather()
+        this.props.fetchDarkSky()
         // console.log(this.props.fetchWeather())
     }
 
+    precipProb = () => {
+        let precipPercentArray = []
+        let precipTypeArray = []
+        if (this.props.dark_sky.length) {
+            this.props.dark_sky.map(element => {
+                precipPercentArray.push(element.precipProbability * 100)
+                return precipPercentArray
+            })
+            this.props.dark_sky.map(element => {
+                precipTypeArray.push(element.precipType)
+                return precipTypeArray
+            })
+
+        
+        let highPrecip = Math.max(...precipPercentArray)
+        let highPrecipIndex = precipPercentArray.indexOf(highPrecip)
+        let precipType = precipTypeArray[highPrecipIndex]
+
+        if (highPrecip < 20) {
+            return (
+                <div className='forecast-precip-high'>
+                    <div className='forecast-icon-container'>
+                    <i className="fas fa-sun"></i>
+                    </div>
+                    <p className='forecast-precip-text'> {`There is up to a ${highPrecip}% chance of ${precipType} within the next 7 days`} </p>
+                </div>
+            )
+        } else {
+            return (
+                <div className='forecast-precip-low'>
+                    <div className='forecast-icon-container'>
+                    <i className="fas fa-tint"></i>
+                    </div>
+                    <p className='forecast-precip-text'> {`There is up to a ${highPrecip}% chance of ${precipType} within the next 7 days`} </p>
+                </div>
+            )
+        }
+    } else {
+        return <p> Trouble connecting to the Dark Sky API </p>
+    }
+    }
+
+
     minTemp = () => {
         let newArr = []
-        if (this.props.forecast.length){
+        if (this.props.forecast.length) {
             this.props.forecast.map(element => {
                 newArr.push(+element.main.temp_min)
                 return newArr
@@ -27,53 +66,51 @@ class WeatherForecast extends Component {
             // console.log('Array minimum', minForecast)
             if (minForecast < 32) {
                 return (
-                <div className='cold-temps-forecast-container'> 
-                    <i className="far fa-snowflake"></i> <p className='forecast-temps-text'> Minimum temperature in next 5 days: {minForecast} {'\u00b0'}F </p>
-                    {/* <p className='forecast-temps-text'> Freezing temperatures in the forecast </p>
-                    <p className='forecast-temps-text'> Potential for increased risk of slips, trips, and falls </p> */}
-                </div>
+                    <div className='cold-temps-forecast-container'>
+                    <div className='forecast-icon-container'>
+                        <i className="far fa-snowflake"></i> 
+                        </div>
+                        <p className='forecast-temps-text'> The min. temperature in the next 5 days is {minForecast} {'\u00b0'}F </p>
+                    </div>
                 )
             } else {
-                return(
-                <div className='warm-temps-forecast-container'>
-                <i className="far fa-thumbs-up"></i>
-                    {/* <br/>
-                    <br/> */}
-                    <p className='forecast-temps-text'> Min. temperature in next 5 days: {minForecast} {'\u00b0'}F</p>
-                    {/* <p className='forecast-temps-text'> The forecast does not indicate an increased environmental hazard </p> */}
-                </div>
+                return (
+                    <div className='warm-temps-forecast-container'>
+                    <div className='forecast-icon-container'>
+                        <i className="far fa-thumbs-up"></i>
+                        </div>
+                        <p className='forecast-temps-text'> The min. temperature in the next 5 days is {minForecast} {'\u00b0'}F</p>
+                    </div>
                 )
             }
-      } else {
-          return "Trouble connecting to the external API"
-      }
+        } else {
+            return <p> Trouble connecting to the OpenWeather API </p>
+        }
     }
 
     render() {
-        // console.log(this.props.forecast)
-        let {forecast, errorMessage} = this.props      
+        // console.log('openweatherapi forecast', this.props.forecast)
+        // console.log('dark sky forecast', this.props.dark_sky)
+        let { forecast, errorMessage } = this.props
         return (
             forecast.length
                 ?
-                <div className='forecast'>
-                {this.minTemp()}
-                     {/* {forecast.map(element => {
-                        
-                         return (
-                             <div key={element.dt}>
-                                 <p >  </p>
-                             </div>
-                         )
-                     })} */}
-                 </div>
-                     :
-                 errorMessage
-                     ?
-                <div>
-                    Unexpected error loading weather data
+                <div className='forecast-container-sub'>
+                    <div className='temp-container'>
+                        {this.minTemp()}
+                    </div>
+                    <div className= 'precip-container'>
+                        {this.precipProb()}
+                    </div>
                 </div>
-                     :
-                <Loading />
+                :
+                errorMessage
+                    ?
+                    <div>
+                        Unexpected error loading weather data
+                </div>
+                    :
+                    <Loading />
 
         )
     }
@@ -82,8 +119,9 @@ class WeatherForecast extends Component {
 function mapStateToProps(state) {
     return {
         forecast: state.reducer.forecast,
-        errorMessage: state.reducer.errorMessage
+        errorMessage: state.reducer.errorMessage,
+        dark_sky: state.reducer.dark_sky
     }
 }
 
-export default connect(mapStateToProps, { fetchWeather })(WeatherForecast)
+export default connect(mapStateToProps, { fetchWeather, fetchDarkSky })(WeatherForecast)

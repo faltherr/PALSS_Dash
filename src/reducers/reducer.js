@@ -1,40 +1,31 @@
 
 import { GET_EVENTS, CREATE_EVENT, DELETE_EVENT, EDIT_EVENT, GET_EVENT_BY_MONTHS } from '../Actions/api_index'
-import { FETCH_WEATHER } from '../Actions/weather_fetcher'
+import { FETCH_WEATHER, FETCH_DARK_SKY } from '../Actions/weather_fetcher'
 import { GET_USER, LOGOUT_USER } from '../Actions/authentication'
-import { FILTER_EVENTS } from '../Actions/event_handlers'
+import { FILTER_EVENTS, CHART_SELECT } from '../Actions/event_handlers'
 
 let initialState = {
-    //Events is an array that contains all of the events
+    //Events truth is an array that contains all of the events
     eventsTruth: [],
+    //Events is directly modified when filtering
     events: [],
     errorMessage: '',
-    //singleEvent will hold the currently selected event
-    singleEvent: null,
-    latitude: '',
-    longitude: '',
-    id: '',
-    date: '',
-    tabuildingFilter: '',
-    descriptionFiler: '',
-    jobtitleFilter: '',
-    factors1Filter: '',
-    bodyparts: '',
+    //Forecast holds the OpenWeatherApi data
     forecast: [],
+    //Dark_Sky holds the dark sky api data
+    dark_sky: [],
+    //User data holds login credentials for registered users
     user_data: null,
-    initialValues: ''
+    initialValues: '',
+    //active chart is used for conditional rendering of the charts in the dashboard
+    activeChart: 'stacked_bar',
+    //This handles the loading state of my requests to conditionally render a spinner in each component that depends on this data
+    pendingRequest: true
 }
 
 const FULFILLED = '_FULFILLED'
 const PENDING = '_PENDING'
 const REJECTED = '_REJECTED'
-// const ADD_DATE = 'ADD_DATE'
-// const ADD_TABLDG = 'ADD_TABLDG'
-// const ADD_DESCRP = 'ADD_DESCRP'
-// const ADD_JOB = 'ADD_JOB'
-// const ADD_FACTOR1 = 'ADD_FACTOR1'
-// const ADD_FACTOR2 = 'ADD_FACTOR2'
-// const ADD_BODYPARTS = 'ADD_BODYPARTS'
 
 export default function reducer(state = initialState, action) {
     // console.log(11111112312321, action)
@@ -48,13 +39,14 @@ export default function reducer(state = initialState, action) {
         //Read all events
 
         case GET_EVENTS + PENDING:
-            return { ...state };
+            return { ...state};
         case GET_EVENTS + FULFILLED:
             return {
                 ...state,
                 eventsTruth: action.payload.data,
                 events: action.payload.data,
-                errorMessage: ''
+                errorMessage: '',
+                pendingRequest:false 
             }
         case GET_EVENTS + REJECTED:
             return {
@@ -72,7 +64,8 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 eventsTruth: action.payload.data,
                 events: action.payload.data,
-                errorMessage: ''
+                errorMessage: '',
+                pendingRequest:false
             }
         case GET_EVENT_BY_MONTHS + REJECTED:
             return {
@@ -89,7 +82,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 events: action.payload.data,
-                errorMessage: ''
+                errorMessage: '',
+                pendingRequest:false 
             }
         case CREATE_EVENT + REJECTED:
             return {
@@ -105,7 +99,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 events: action.payload.data,
-                errorMessage: ''
+                errorMessage: '',
+                pendingRequest:false 
             }
         case DELETE_EVENT + REJECTED:
             return {
@@ -121,7 +116,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 events: action.payload.data,
-                errorMessage: ''
+                errorMessage: '',
+                pendingRequest:false 
             }
         case EDIT_EVENT + REJECTED:
             return {
@@ -138,7 +134,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 forecast: action.payload.data.list,
-                errorMessage: ''
+                errorMessage: '',
+                pendingRequest: false 
             }
 
         case FETCH_WEATHER + REJECTED:
@@ -148,6 +145,25 @@ export default function reducer(state = initialState, action) {
                 errorMessage: action.payload
             }
 
+        // GET DARK SKY FORECAST
+            case FETCH_DARK_SKY + PENDING:
+                return { ...state };
+    
+            case FETCH_DARK_SKY + FULFILLED:
+                return {
+                    ...state,
+                    dark_sky: action.payload.data.daily.data,
+                    errorMessage: '',
+                    pendingRequest:false 
+                }
+    
+            case FETCH_DARK_SKY + REJECTED:
+                return {
+                    ...state,
+                    dark_sky: [],
+                    errorMessage: action.payload
+                }
+
         // Authentication
 
         case GET_USER + FULFILLED:
@@ -155,14 +171,19 @@ export default function reducer(state = initialState, action) {
             return { ...state, user_data: action.payload.data }
 
         case LOGOUT_USER + FULFILLED:
-            return { ...state, user_data: null }
-
+            return { ...state, 
+                    user_data: null,
+                    pendingRequest:false  }
         default:
             return state;
 
-        // Event Array Filtera
+        // Event Array Filters
 
         case FILTER_EVENTS:
             return { ...state, events: action.payload }
+
+        // Chart selection
+        case CHART_SELECT:
+                return {...state, activeChart: action.payload}
     }
 }
