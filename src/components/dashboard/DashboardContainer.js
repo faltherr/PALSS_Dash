@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import IncidentTable from './IncidentTable'
 import SimpleMap from './Map';
-// import WeatherForecast from './Forecast'
+import WeatherForecast from './Forecast'
 import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
 import {getEventsByTime} from '../../Actions/api_index'
@@ -11,6 +11,7 @@ import { getUser, logout } from '../../Actions/authentication'
 import {filterEvents} from '../../Actions/event_handlers'
 import { uniqueLocations, uniqueFactors, uniqueJobs, uniqueTimes } from './UniqueData'
 import Select from 'react-select'
+import LineChart from './LineChart'
 
 var _ = require('lodash');
 
@@ -134,6 +135,9 @@ class DashboardContainer extends Component {
                         <h4 className="header-link-text dashboard"> Dashboard </h4>
                         <Link to='/About'> <h4 className="header-link-text"> About </h4> </Link>
                     </div>
+                    <div className='forecast-container'>
+                        <WeatherForecast />
+                    </div>
                     <div className='dashboard-button-container'>
                         {
                             //If the user is logged in and they are an admin then we allow them to have admin privelleges to full CRUD
@@ -218,10 +222,6 @@ class DashboardContainer extends Component {
                         <IncidentTable />
                     </div>
 
-                    {/* <div className='forecast-container'>
-                        <WeatherForecast />
-                    </div> */}
-
                     <div className='event-counter' >
                         <DonutChart />
                     </div>
@@ -234,8 +234,8 @@ class DashboardContainer extends Component {
                     </div>
 
                     <div className='time-series-graph'>
-                        <StackedBarChart id="container" />
-                        {/* <LineChart/> */}
+                        {/* <StackedBarChart id="container" /> */}
+                        <LineChart events = {this.props.eventsTruth} />
                     </div>
                 </div>
 

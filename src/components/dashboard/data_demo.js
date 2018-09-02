@@ -523,3 +523,31 @@ function makeObjects(arr) {
 })}
 
 console.log(makeObjects(uniqueFactors))
+
+
+
+    //This code block works properly (Gives annual sums of all incidents)
+
+    // componentDidUpdate(prevProps) {
+    //     // console.log(78534985973479)
+    //     // console.log(this.props.events)
+    //     const { events } = this.props
+    //     if (events.length !== prevProps.events.length) {
+    //         let data2 = this.props.events.slice()
+
+    //         data2.forEach(function (arrayItem){
+    //             var x = arrayItem["date"].split("/")[2]
+    //             // console.log(x)
+    //         })
+
+    //         var AccidentsByYear = d3.nest()
+    //         .key(function(d) {var x = d["date"].split("/")[2]; return x })
+    //         .rollup(function(v) { return v.length; })
+    //         .entries(data2);
+    //         // console.log(JSON.stringify(AccidentsByYear));
+
+    //         this.setState({
+    //             transformedData: AccidentsByYear
+    //         })
+    //     }
+    // }

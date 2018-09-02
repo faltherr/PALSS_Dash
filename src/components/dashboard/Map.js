@@ -55,13 +55,10 @@ class SimpleMap extends Component {
         this.closeAndDelete(id, data)
     }
 
-
-
-
     createMarkers(events) {
 
         const { openedit, opendelete } = this.state
-        console.log('Events in mapjs', events)
+        // console.log('Events in mapjs', events)
         return events.map(event => {
             let { latitude: lat, longitude: lon, id, date, tabuilding, jobtitle, factors1, bodyparts, description } = event
             return lat && lon &&

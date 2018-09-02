@@ -260,11 +260,30 @@ hr {
 
 .forecast-container{
   height: 100%;
-  width: 16%;
+  width: 20%;
+  display: flex;
+  align-items: center;
+}
+
+.forecast-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.far{
+  font-size: 40px;
+  height: 100%;
+  color:  #7C5AFF ;
 }
 
 .forecast-temps-text{
   color: white;
+  font-size: 14px;
+  height: 100%;
+  text-align: left;
+  margin-left: 10px;
 }
 
 .event-counter{
@@ -274,6 +293,19 @@ hr {
   justify-content: center;
   align-items: center;
 }
+
+.cold-temps-forecast-container{
+  display:flex;
+  flex-direction: row;
+}
+
+.warm-temps-forecast-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+}
+
 
 
 /* This div wraps seats the map container within the map-graph-wrapper flexbox */
@@ -324,6 +356,10 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.time-series-axis{
+  color: white
 }
 
 .recharts-surface{

@@ -100,20 +100,20 @@ class StackedBarChart extends Component {
                         {/* <CartesianGrid strokeDasharray="3 3" /> */}
                         <Tooltip className="bar-chart-tooltip" itemStyle={{ position: 'relative', fontSize:10}} labelFormatter={function formatLabel(Label, ) { return moment(Label, 'MM/YY').format('MMMM, YYYY') }} />
                         {/* <Legend verticalAlign="middle" layout="vertical" align="right"/> */}
-                        <Bar dataKey="Slip/Trip/Fall" stackId="a" fill="#3f007d" />
-                        <Bar dataKey="Repetitive Motion/cumulative Trauma" stackId="a" fill="#cab2d6" />
-                        <Bar dataKey="Contact" stackId="a" fill="#ff7f00" />
-                        <Bar dataKey="Voluntary Motions" stackId="a" fill="#fdbf6f" />
-                        <Bar dataKey="Struck Against/By" stackId="a" fill="#fb9a99" />
-                        <Bar dataKey="Lift/Push/Pull" stackId="a" fill="#33a02c" />
-                        <Bar dataKey="Caught In, On, Under Or Between" stackId="a" fill="#b2df8a" />
-                        <Bar dataKey="Bite/sting" stackId="a" fill="#1f78b4" />
-                        <Bar dataKey="Allergic/bodily Reaction" stackId="a" fill="#a6cee3" />
-                        <Bar dataKey="Exposure" stackId="a" fill="#d9d9d9" />
-                        <Bar dataKey="Training/Qualification" stackId="a" fill="#b3de69" />
-                        <Bar dataKey="Involuntary Motions" stackId="a" fill="#fdb462" />
-                        <Bar dataKey="Motor Vehicle Accident" stackId="a" fill="#a65628" />
-                        <Bar dataKey="Hearing Loss/STS" stackId="a" fill="#8dd3c7" />
+                        <Bar dataKey="Slip/Trip/Fall" stackId="a" fill=" #39004d" />
+                        <Bar dataKey="Repetitive Motion/cumulative Trauma" stackId="a" fill=" #600080" />
+                        <Bar dataKey="Contact" stackId="a" fill=" #8600b3" />
+                        <Bar dataKey="Voluntary Motions" stackId="a" fill=" #9900cc" />
+                        <Bar dataKey="Struck Against/By" stackId="a" fill=" #ac00e6" />
+                        <Bar dataKey="Lift/Push/Pull" stackId="a" fill="#cc33ff" />
+                        <Bar dataKey="Caught In, On, Under Or Between" stackId="a" fill=" #d24dff" />
+                        <Bar dataKey="Bite/sting" stackId="a" fill=" #d966ff" />
+                        <Bar dataKey="Allergic/bodily Reaction" stackId="a" fill="#df80ff" />
+                        <Bar dataKey="Exposure" stackId="a" fill=" #e699ff" />
+                        <Bar dataKey="Training/Qualification" stackId="a" fill="#ecb3ff" />
+                        <Bar dataKey="Motor Vehicle Accident" stackId="a" fill="#f2ccff" />
+                        <Bar dataKey="Hearing Loss/STS" stackId="a" fill=" #f9e6ff" />
+                        <Bar dataKey="Involuntary Motions" stackId="a" fill=" #ffe6ff" />
                         <XAxis dataKey="Date" angle={-45} textAnchor="end" tickFormatter={function formatXAxis(tickItem, ) { return moment(tickItem, 'MM/YY').format('MMM YYYY') }} stroke="white" />
                         <YAxis stroke='white' />
                         {/* <Brush /> */}
