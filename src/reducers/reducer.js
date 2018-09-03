@@ -32,6 +32,7 @@ export default function reducer(state = initialState, action) {
     // console.log('The action', action.type)
     console.log('action.payload', action.payload)
     // console.log('action', action)
+
     switch (action.type) {
 
         //API Endpoint Events
@@ -39,7 +40,7 @@ export default function reducer(state = initialState, action) {
         //Read all events
 
         case GET_EVENTS + PENDING:
-            return { ...state};
+            return { ...state, pendingRequest: true};
         case GET_EVENTS + FULFILLED:
             return {
                 ...state,
@@ -58,7 +59,7 @@ export default function reducer(state = initialState, action) {
         //Read events by time before current date
 
         case GET_EVENT_BY_MONTHS + PENDING:
-            return { ...state };
+            return { ...state, pendingRequest: true };
         case GET_EVENT_BY_MONTHS + FULFILLED:
             return {
                 ...state,
@@ -77,7 +78,7 @@ export default function reducer(state = initialState, action) {
 
         //Create new event
         case CREATE_EVENT + PENDING:
-            return { ...state };
+            return { ...state, pendingRequest: true };
         case CREATE_EVENT + FULFILLED:
             return {
                 ...state,
@@ -94,7 +95,7 @@ export default function reducer(state = initialState, action) {
 
         //Delte event
         case DELETE_EVENT + PENDING:
-            return { ...state };
+            return { ...state, pendingRequest: true };
         case DELETE_EVENT + FULFILLED:
             return {
                 ...state,
@@ -111,7 +112,7 @@ export default function reducer(state = initialState, action) {
 
         //Edit event
         case EDIT_EVENT + PENDING:
-            return { ...state };
+            return { ...state, pendingRequest: true };
         case EDIT_EVENT + FULFILLED:
             return {
                 ...state,
@@ -128,7 +129,7 @@ export default function reducer(state = initialState, action) {
 
         // GET WEATHER FORECAST
         case FETCH_WEATHER + PENDING:
-            return { ...state };
+            return { ...state, pendingRequest: true };
 
         case FETCH_WEATHER + FULFILLED:
             return {
@@ -147,7 +148,7 @@ export default function reducer(state = initialState, action) {
 
         // GET DARK SKY FORECAST
             case FETCH_DARK_SKY + PENDING:
-                return { ...state };
+                return { ...state, pendingRequest: true };
     
             case FETCH_DARK_SKY + FULFILLED:
                 return {

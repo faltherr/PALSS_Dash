@@ -182,13 +182,16 @@ hr {
 }
 
 .date-filter-dropdown{
-  
   height:36px;
 }
 
-/* .filter-container p{
-  height: 50%;
-} */
+.description-filter-input{
+  height: 38px;
+}
+
+
+/*********** Primary Wrapper for table and counter *************/
+
 
 .forecast-counter-table-wrapper{
   display: flex;
@@ -202,6 +205,11 @@ hr {
 /*********** Table stuff *************/
 
 /* Remove the top border from the table */
+
+.incident-table-title{
+  color: white;
+}
+
 .react-bs-container-header tr {
   border-top-style: hidden !important;
 }
@@ -389,7 +397,7 @@ hr {
   width: 20%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -405,6 +413,10 @@ hr {
 .map-wrapper{
   height: 100%;
   width: 48%;
+}
+
+.map-title{
+  color: white;
 }
 
 .map-container{ 
@@ -443,36 +455,58 @@ hr {
 
 .time-series-graph{
   width: 48%;
-  height:50vh;
+  height:100%;
   /* background-color: lightpink; */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: end;
   /* justify-content: center;
   align-items: center; */
 }
 
+/* .bar-chart-title{
+  color: white;
+} */
+
 .chart-selector{
-  width: 40%;
-  height: 20px;
+  width: 75%;
+  height: 24px;
+  align-self: center;
 }
 
 .line-chart-container{
-  display: flex;
-  width:100%;
-  height: 100%;
+  width:90%;
+  height: 90%;
 }
+
+.line-chart-and-title{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%
+}
+
 .time-series-axis{
   color: white
 }
 
-.line-chart-title{
-  color: white;
+/************************* NOTE!!!!! Recharts has INLINE STYLING. Change style within the component itself **************************/
+
+/* .recharts-wrapper{
+  height: 100% !important;
+  width: 100% !important;
+  margin: 10px 15px 0px 0px;
 }
 
 .recharts-surface{
-  height:80%;
-}
+  height:90%;
+  width: 90%;
+} */
+
+/* .recharts-surface{
+  height:100%;
+  margin: 10px 15px 0px 0px
+} */
 
 
 .recharts-default-tooltip{

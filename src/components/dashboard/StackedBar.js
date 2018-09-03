@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 // import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Brush } from 'recharts';
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -92,12 +92,12 @@ class StackedBarChart extends Component {
         return (
             transformedData.length
                 ?
-                <div id="container">
-                    {/* {this.eventData()} */}
-                    {/* {console.log(this.state.transformedData)} */}
-                    <BarChart width={600} height={300} data={transformedData}
-
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    // {/* <p className='bar-chart-title'> Incidents Over Time Grouped by Contributing Factors </p> */}
+                    // {/* {this.eventData()} */}
+                    // {/* {console.log(this.state.transformedData)} */}
+                    // <BarChart width={600} height={300} data={transformedData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <ResponsiveContainer width='100%' height='100%'>
+                    <BarChart data={transformedData}   margin={{top: 20, right: 10, left: 0, bottom: 40}}>
                         {/* <CartesianGrid strokeDasharray="3 3" /> */}
                         <Tooltip className="bar-chart-tooltip" itemStyle={{ position: 'relative', fontSize:10}} labelFormatter={function formatLabel(Label, ) { return moment(Label, 'MM/YY').format('MMMM, YYYY') }} />
                         {/* <Legend verticalAlign="middle" layout="vertical" align="right"/> */}
@@ -119,7 +119,8 @@ class StackedBarChart extends Component {
                         <YAxis stroke='white' />
                         {/* <Brush /> */}
                     </BarChart>
-                </div>
+                    </ResponsiveContainer>
+               
                 :
                 errorMessage
                     ?

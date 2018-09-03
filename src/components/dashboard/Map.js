@@ -130,6 +130,7 @@ class SimpleMap extends Component {
         return (
 
             <div id="container">
+                <p className='map-title'> Spatial Distribution of Workplace Incidents </p>
                 <Map center={map_position} zoom={this.state.zoom} className="map-container" maxZoom={18} minZoom={10}>
                     <TileLayer
                         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

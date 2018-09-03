@@ -131,9 +131,11 @@ class DashboardContainer extends Component {
         // console.log("STATE", this.state)
         // console.log('location filter string', locationFilterString)
         // console.log('Job filter string', jobsFilterString)
-        console.log('Selected chart', this.state.activeChart)
+        console.log('Is request pending?', this.props.pendingRequest)
+        // console.log('Selected chart', this.state.activeChart)
         const { locationFilterString, factorsFilterString, jobsFilterString } = this.state
         return (
+            
             <div className="main-dashboard-container">
                 <div className='dashboard-header'>
                     <div className="dashboard-header-link-container">
@@ -219,7 +221,7 @@ class DashboardContainer extends Component {
                     </div>
                     <div className="filter-container">
                         <p> Search description: </p>
-                        <input onChange={(e) => this.handleChangeDescription(e.target.value)} placeholder='Search...' />
+                        <input className='description-filter-input' onChange={(e) => this.handleChangeDescription(e.target.value)} placeholder='Search...' />
                     </div>
                 </div>
                 <div className="forecast-counter-table-wrapper">
@@ -242,16 +244,12 @@ class DashboardContainer extends Component {
 
                     <div className='time-series-graph'>
                         <select className='chart-selector' onChange= {this.changeChart}>
-                            <option value='stacked_bar'> Stacked Bar Chart </option>
-                            <option value='line_chart'> Line Chart </option>
+                            <option value='stacked_bar'>Incidents Over Time Grouped by Contributing Factors</option>
+                            <option value='line_chart'>Incidents Over Time</option>
                         </select>
-                        <div className='stacked-bar-container'>
-                        <StackedBarChart id="container" />
+                            <StackedBarChart />
+                            <LineChart events = {this.props.eventsTruth} />
                         </div>
-                        <div className='line-chart-container'>
-                        <LineChart events = {this.props.eventsTruth} />
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -263,7 +261,8 @@ function mapStateToProps(state) {
     // console.log("State", state)
     return {
         user_data: state.reducer.user_data,
-        eventsTruth: state.reducer.eventsTruth
+        eventsTruth: state.reducer.eventsTruth,
+        pendingRequest: state.reducer.pendingRequest
     }
 }
 

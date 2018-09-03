@@ -1,13 +1,24 @@
 import React, { Component } from 'react'
 import * as d3 from "d3";
 import { connect } from 'react-redux'
+
 // import { getEventsByTime } from '../../Actions/api_index'
 // import { connect } from 'react-redux'
 // import _ from 'lodash'
 // import moment from 'moment'
 
-const width = 650;
-const height = 400;
+//Loading spinner stuff
+import { FadeLoader } from 'react-spinners'
+import { css } from 'react-emotion'
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
+
+const width = 550;
+const height = 380;
 const margin = { top: 20, right: 5, bottom: 20, left: 35 };
 
 class LineDemo extends Component {
@@ -98,8 +109,12 @@ class LineDemo extends Component {
         console.log(this.props.activeChart)
         if (this.props.activeChart === 'line_chart') {
             return (
-                <div className='line-chart-and-title'>
-                <p className = 'line-chart-title'> Incidents over time </p>
+                this.props.pendingRequest || !this.props.events
+                ?
+                <FadeLoader 
+                className={override}
+                color={'#656665'} />
+                :
                 <svg width={width} height={height} >
                     <path d={this.state.line} fill='none' stroke={'#7C5AFF'} />
                     <g className='time-series-axis'>
@@ -107,7 +122,7 @@ class LineDemo extends Component {
                         <g ref='yAxis' transform={`translate(${margin.left}, 0)`} />
                     </g>
                 </svg>
-                </div>
+
             )
         } else {
             return null
@@ -117,7 +132,8 @@ class LineDemo extends Component {
 
 function mapStateToProps(state) {
     return {
-        activeChart: state.reducer.activeChart
+        activeChart: state.reducer.activeChart,
+        pendingRequest: state.reducer.pendingRequest
     }
 }
 
