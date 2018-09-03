@@ -9,7 +9,7 @@ class IncidentTable extends Component {
     constructor(){
         super()
         this.state={
-            setTableOption: 'Data request pending...'
+            setTableOption: ''
         }
     }
     
@@ -18,17 +18,16 @@ class IncidentTable extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        if(this.state.setTableOption !== prevState.setTableOption){
-            if(this.props.pendingRequest){
-                  this.setState({
-                    setTableOption: 'No data located'
-                  }) 
-             }else{
-                  this.setState({
-                      setTableOption: 'Data request pending...'
-                  })
+            if(this.props.pendingRequest && !this.state.setTableOption){
+                this.setState({
+                setTableOption: 'Loading data'
+                }) 
              }
-        }
+             if(!this.props.pendingRequest && this.state.setTableOption) {
+                 this.setState({
+                     setTableOption: ''
+                 })
+             }
        }
     
 

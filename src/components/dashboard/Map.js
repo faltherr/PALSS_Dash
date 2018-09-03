@@ -17,6 +17,15 @@ const override = css`
     border-color: red;
 `;
 
+var violetIcon = new L.Icon({
+    iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
 class SimpleMap extends Component {
     constructor() {
         super()
@@ -62,7 +71,7 @@ class SimpleMap extends Component {
         return events.map(event => {
             let { latitude: lat, longitude: lon, id, date, tabuilding, jobtitle, factors1, bodyparts, description } = event
             return lat && lon &&
-                <Marker position={[lat, lon]} key={id}>
+                <Marker position={[lat, lon]} key={id} icon={violetIcon}>
                     <Popup>
                         <span> Id: {id} </span>
                         <br />

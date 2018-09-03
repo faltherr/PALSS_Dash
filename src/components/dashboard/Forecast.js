@@ -49,7 +49,7 @@ class WeatherForecast extends Component {
             )
         }
     } else {
-        return <p> Trouble connecting to the Dark Sky API </p>
+        return <p className='dark-sky-error-text'> Trouble connecting to the Dark Sky API </p>
     }
     }
 

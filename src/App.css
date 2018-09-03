@@ -323,6 +323,10 @@ hr {
   margin: 0px 0px 0px 15px;
 }
 
+.dark-sky-error-text{
+  color: white;
+}
+
 .temp-container,.precip-container{
   position: absolute;
   width: 100%;
@@ -433,6 +437,10 @@ hr {
   height: 90%; 
   box-shadow: 0 12px 6px -6px black;
   z-index: 0;
+}
+
+.leaflet-marker-icon{
+  color: #7C5AFF
 }
 
 .map-fade-loader{

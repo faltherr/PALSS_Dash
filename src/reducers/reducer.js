@@ -31,7 +31,9 @@ const REJECTED = '_REJECTED'
 export default function reducer(state = initialState, action) {
     // console.log(11111112312321, action)
     // console.log('The action', action.type)
-    console.log('action.payload', action.payload)
+
+    // console.log('action.payload', action.payload)
+    
     // console.log('action', action)
 
     switch (action.type) {
