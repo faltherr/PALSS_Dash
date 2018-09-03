@@ -20,23 +20,31 @@ const override = css`
 
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
     return (
-    <div>
-      <label>{label}</label>
-      <div>
-        <input {...input} placeholder={label} type={type}/>
-        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+    <div className='new-form-input-warning-wrapper'>
+      <div className='form-input-container'>
+        <input {...input} placeholder={label} type={type} className='new-form-input-field'/>
+        {touched && ((error && <span className='error-message-input'> <i class="fas fa-exclamation-circle"></i> {error}</span>) || (warning && <span>{warning}</span>))}
+      </div>
+    </div>
+  )}
+
+  const renderFieldTextArea = ({ input, label, type, meta: { touched, error, warning } }) => {
+    return (
+    <div className='new-form-input-warning-wrapper'>
+      <div className='form-input-container'>
+        <textarea {...input} placeholder={label} type={type} className='new-form-input-field'/>
+        {touched && ((error && <span className='error-message-input'> <i class="fas fa-exclamation-circle"></i> {error}</span>) || (warning && <span>{warning}</span>))}
       </div>
     </div>
   )}
 
 const renderSelectField = ({ input, label, type, meta: { touched, error }, children }) => (
-    <div>
-      <label>{label}</label>
-      <div>
-        <select {...input}>
+    <div className='new-form-input-warning-wrapper'>
+      <div className='form-select-container'>
+        <select {...input} className='new-form-select-field'>
           {children}
         </select>
-        {touched && error && <span>{error}</span>}
+        {touched && error && <span className='error-message-select'><i class="fas fa-exclamation-circle"></i>{error}</span>}
       </div>
     </div>
   )
@@ -109,9 +117,10 @@ let EventFormFunc = props => {
         <div className='new-form-container'>
             <form onSubmit={handleSubmit(onSubmit)} className='new-main-form'>
                 <h3 className='new-event-form-header'> Record a New Incident </h3>
-
+                <div className= 'all-input-field-wrapper'>
+                <div className ='input-fields-left-column'>
                 <div className='form-group'>
-                    <label> Date </label>
+                    <label className='new-form-label'> Date </label>
                     {/* <Field name="eventdate" type="text" className="form-control" component="input" {...eventdate} autoComplete="none" /> */}
                     <Field
                         name="eventdate"
@@ -130,7 +139,7 @@ let EventFormFunc = props => {
                 </div>
 
                 <div className='form-group'>
-                    <label> Location (TA - BLDG) </label>
+                    <label className='new-form-label'> Location (Tech Area - Building) </label>
                     {/* Pass configuration object into the input with {...TaBldg} */}
                     <Field name="tabldg" className="form-control" component={renderSelectField} {...tabldg} placeholder='i.e. 03-4300' validate ={[requireLocation]}>
                     <option value=''> Select a value... </option>
@@ -139,7 +148,7 @@ let EventFormFunc = props => {
                 </div>
 
                 <div className='form-group'>
-                    <label>JobTitle </label>
+                    <label className='new-form-label'>JobTitle </label>
                     <Field name="jobtitle" className="form-control" component={renderSelectField} {...jobtitle} validate ={[requireJob]}>
                         <option value=''> Select a value... </option>
                         {uniqueJobsArr.map(option=> <option value={option} key={option}>{option}</option>)}
@@ -147,21 +156,26 @@ let EventFormFunc = props => {
                 </div>
 
                 <div className='form-group'>
-                    <label>Factors </label>
+                    <label className='new-form-label'>Factors </label>
                     <Field name="factors1" className="form-control" component={renderSelectField} {...factors1} validate ={[requireFactors]}>
                     <option value=''> Select a value... </option>
                         { uniqueFactorsArr.map(option => <option value={option} key={option}>{option}</option>) }
                     </Field>
                 </div>
+                </div>
+                
+                <div className='input-fields-right-column'>
 
-                <div className='form-group'>
-                    <label>Body Parts Injured </label>
-                    <Field name="bodyparts" type="text" className="form-control" component={renderField} {...bodyparts} validate ={[required]} />
+                <div className='form-group-body-parts'>
+                    <label className='new-form-label'>Body Parts Injured </label>
+                    <Field name="bodyparts" type="text" className="form-control" component={renderField} {...bodyparts} validate ={[required]} placeholder={'Enter the bodypart(s) injured'} />
                 </div>
 
-                <div className='form-group'>
-                    <label>Description </label>
-                    <Field name="description" type='textarea' className="form-control" component={renderField} {...description} validate ={[required]} />
+                <div className='form-group-description'>
+                    <label className='new-form-label'>Description </label>
+                    <Field name="description" type='textarea' className="form-control" component={renderFieldTextArea} {...description} validate ={[required]} />
+                </div>
+                </div>
                 </div>
 
                 <div className='new-form-button-container'>

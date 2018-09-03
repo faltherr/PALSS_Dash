@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Donut } from 'britecharts-react'
+import { Donut, Legend, helpers} from 'britecharts-react'
 import { connect } from 'react-redux'
 import * as d3 from "d3"
 import colors from 'britecharts/dist/umd/colors.min.js'
@@ -8,6 +8,10 @@ import colors from 'britecharts/dist/umd/colors.min.js'
 //Loading spinner stuff
 import {FadeLoader} from 'react-spinners'
 import { css } from 'react-emotion'
+
+// const withResponsiveness = require('../../../node_modules/britecharts-react/src/charts/helpers/withResponsiveness.js').default;
+console.log('Responsive container', helpers)
+// const ResponsiveLegend = (Legend)
 
 const override = css`
     display: block;
@@ -59,8 +63,23 @@ class DonutChart extends Component {
         return (
             transformedData.length && !this.props.pendingRequest
                 ?
-                <div>
-                    <Donut data={transformedData} colorSchema={colors.colorSchemas.purple}/>
+                <div className='donut-and-legend-container'>
+                    <Donut data={transformedData} 
+                            colorSchema={colors.colorSchemas.purple}
+                            externalRadius={80}
+                            internalRadius={37}
+                            width={200}
+                            height={200}
+                            />
+                    <Legend data={transformedData} 
+                            colorSchema={colors.colorSchemas.purple} 
+                            isHorizontal={false}
+                            markerSize={6}
+                            marginRatio={1.8}
+                            width={300}
+                            height={200}
+                            numberFormat={'01d'}
+                            />
                 </div>
                 :
                 errorMessage

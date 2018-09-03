@@ -20,7 +20,7 @@ class IncidentTable extends Component {
     componentDidUpdate(prevProps, prevState){
             if(this.props.pendingRequest && !this.state.setTableOption){
                 this.setState({
-                setTableOption: 'Loading data'
+                setTableOption: 'Loading data...'
                 }) 
              }
              if(!this.props.pendingRequest && this.state.setTableOption) {

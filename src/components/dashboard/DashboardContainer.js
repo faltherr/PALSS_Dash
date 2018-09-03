@@ -22,6 +22,7 @@ class DashboardContainer extends Component {
         super()
         this.state = {
             preFilterArr: [],
+            timeFilterString: '',
             locationFilterString: '',
             factorsFilterString: '',
             jobsFilterString: '',
@@ -33,6 +34,14 @@ class DashboardContainer extends Component {
     componentDidMount() {
         this.props.getUser()
         //This resets the state of the event form
+    }
+
+    handleChangeTime = (e) =>{
+        this.props.getEventsByTime(e.value, e.label)
+        let obj = {value: e.value, label : e.label}
+        this.setState({
+            timeFilterString: obj
+        })
     }
 
     handleChangeLocation = (inputVar) => {
@@ -135,6 +144,7 @@ class DashboardContainer extends Component {
         // console.log('Job filter string', jobsFilterString)
         console.log('Is request pending?', this.props.pendingRequest)
         // console.log('Selected chart', this.state.activeChart)
+        console.log('SelectTime', this.props.selectedTime)
         const { locationFilterString, factorsFilterString, jobsFilterString } = this.state
         return (
             
@@ -142,6 +152,7 @@ class DashboardContainer extends Component {
                 <div className='dashboard-header'>
                     <div className="dashboard-header-link-container">
                         <div> <img src={process.env.PUBLIC_URL + '/logo_transparent.png'} alt="logo" className="logo-mini" /> </div>
+                        <Link to='/'> <h4 className="header-link-text"> Login </h4> </Link>
                         <h4 className="header-link-text dashboard"> Dashboard </h4>
                         <Link to='/About'> <h4 className="header-link-text"> About </h4> </Link>
                     </div>
@@ -180,12 +191,12 @@ class DashboardContainer extends Component {
                     <div className="filter-container">
                         <p> Select events occuring: </p>
                         <Select
-                            value={{ value: uniqueTimes.label, label:  uniqueTimes.label}}
+                            placeholder='Within the past 6 months'
+                            value={this.state.timeFilterString}
                             options={uniqueTimes}
-                            onChange={(e) => this.props.getEventsByTime(e.value)}
-                            className='dashboard-filter-bar'
+                            onChange={this.handleChangeTime}
+                            className='dashboard-filter-bar-time'
                             // clearable={true}
-                            placeholder={'Select...'}
                         />
                     </div>
                     <div className="filter-container">
@@ -218,7 +229,7 @@ class DashboardContainer extends Component {
                             onChange={this.handleChangeJob}
                             className='dashboard-filter-bar'
                             clearable={true}
-                            placeholder={'Select...'}
+                            placeholder='Select...'
                         />
                     </div>
                     <div className="filter-container">
@@ -264,7 +275,7 @@ function mapStateToProps(state) {
     return {
         user_data: state.reducer.user_data,
         eventsTruth: state.reducer.eventsTruth,
-        pendingRequest: state.reducer.pendingRequest
+        pendingRequest: state.reducer.pendingRequest,
     }
 }
 

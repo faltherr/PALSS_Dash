@@ -57,6 +57,7 @@ export default class renderDatePicker extends React.Component {
         {touched &&
           error &&
           <span className="datepicker__error">
+            <i className="fas fa-exclamation-circle"> </i>
             {error}
           </span>}
       </div>

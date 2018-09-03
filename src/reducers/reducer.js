@@ -34,8 +34,6 @@ export default function reducer(state = initialState, action) {
 
     // console.log('action.payload', action.payload)
     
-    // console.log('action', action)
-
     switch (action.type) {
 
         //API Endpoint Events
@@ -69,7 +67,8 @@ export default function reducer(state = initialState, action) {
                 eventsTruth: action.payload.data,
                 events: action.payload.data,
                 errorMessage: '',
-                pendingRequest:false
+                pendingRequest:false,
+                // selectedTime: action.time_name
             }
         case GET_EVENT_BY_MONTHS + REJECTED:
             return {
