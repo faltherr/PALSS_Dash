@@ -57,7 +57,7 @@ class DonutChart extends Component {
         let { errorMessage } = this.props
         let {transformedData } = this.state
         return (
-            transformedData.length
+            transformedData.length && !this.props.pendingRequest
                 ?
                 <div>
                     <Donut data={transformedData} colorSchema={colors.colorSchemas.purple}/>
@@ -79,7 +79,8 @@ class DonutChart extends Component {
 
 function mapStateToProps(state) {
     return {
-        events: state.reducer.events
+        events: state.reducer.events,
+        pendingRequest: state.reducer.pendingRequest
     }
 }
 

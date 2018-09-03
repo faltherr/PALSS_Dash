@@ -8,7 +8,7 @@ import DonutChart from './DonutChart'
 import StackedBarChart from './StackedBar'
 import {getEventsByTime} from '../../Actions/api_index'
 import { getUser, logout } from '../../Actions/authentication'
-import {filterEvents, chartSelect} from '../../Actions/event_handlers'
+import {filterEvents, chartSelect, resetFormSubmit} from '../../Actions/event_handlers'
 import { uniqueLocations, uniqueFactors, uniqueJobs, uniqueTimes } from './UniqueData'
 import Select from 'react-select'
 import LineChart from './LineChart'
@@ -32,6 +32,7 @@ class DashboardContainer extends Component {
 
     componentDidMount() {
         this.props.getUser()
+        //This resets the state of the event form
     }
 
     handleChangeLocation = (inputVar) => {
@@ -121,6 +122,7 @@ class DashboardContainer extends Component {
             this.props.filterEvents(filter)
         }
         if(needsFilter) performFilter()
+        this.props.resetFormSubmit()
     }
 
     render() {
@@ -267,4 +269,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { getUser, logout, filterEvents, getEventsByTime, chartSelect })(DashboardContainer)
+export default connect(mapStateToProps, { getUser, logout, filterEvents, getEventsByTime, chartSelect, resetFormSubmit })(DashboardContainer)

@@ -6,6 +6,17 @@ import renderDatePicker from './DatePicker'
 import moment from 'moment';
 import { Link } from 'react-router-dom'
 import { uniqueFactorsArr, uniqueJobsArr, uniqueLocationsArr } from '../dashboard/UniqueData'
+import {formSubmit, resetFormSubmit} from '../../Actions/event_handlers'
+
+//Loading spinner stuff
+import {FadeLoader} from 'react-spinners'
+import { css } from 'react-emotion'
+
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
 
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
     return (
@@ -62,11 +73,19 @@ const requireJob = value => value ? undefined : 'Required: Please enter the job 
 const requireFactors = value => value ? undefined : 'Please enter the primary cause of the incident'
 const requireLocation = value => value ? undefined : 'Required: Please enter a location in a 2 digit TA, 4 digit building format'
 
+//
+// const methods= {
+//     componentDidMount(){
+//         props.resetFormSubmit()
+//     }
+// }
 
 let EventFormFunc = props => {
+
+    
     // Configuration objects
 
-    console.log('we got this!', props)
+    // console.log('we got this!', props)
     const { eventdate,
         tabldg,
         jobtitle,
@@ -79,9 +98,11 @@ let EventFormFunc = props => {
     let onSubmit = (formData) => {
         console.log(2)
         // console.log("The form's payload", props)
+        props.formSubmit()
         props.createEvent(formData).then(res => {
             props.history.push('/Dashboard')
         })
+        
     }
 
     return (
@@ -113,7 +134,7 @@ let EventFormFunc = props => {
                     {/* Pass configuration object into the input with {...TaBldg} */}
                     <Field name="tabldg" className="form-control" component={renderSelectField} {...tabldg} placeholder='i.e. 03-4300' validate ={[requireLocation]}>
                     <option value=''> Select a value... </option>
-                    {uniqueLocationsArr.map(option=> <option value={option}>{option}</option>)}
+                    {uniqueLocationsArr.map(option=> <option value={option} key={option}>{option}</option>)}
                     </Field>
                 </div>
 
@@ -121,7 +142,7 @@ let EventFormFunc = props => {
                     <label>JobTitle </label>
                     <Field name="jobtitle" className="form-control" component={renderSelectField} {...jobtitle} validate ={[requireJob]}>
                         <option value=''> Select a value... </option>
-                        {uniqueJobsArr.map(option=> <option value={option}>{option}</option>)}
+                        {uniqueJobsArr.map(option=> <option value={option} key={option}>{option}</option>)}
                     </Field>
                 </div>
 
@@ -129,7 +150,7 @@ let EventFormFunc = props => {
                     <label>Factors </label>
                     <Field name="factors1" className="form-control" component={renderSelectField} {...factors1} validate ={[requireFactors]}>
                     <option value=''> Select a value... </option>
-                        { uniqueFactorsArr.map(option => <option value={option}>{option}</option>) }
+                        { uniqueFactorsArr.map(option => <option value={option} key={option}>{option}</option>) }
                     </Field>
                 </div>
 
@@ -150,6 +171,17 @@ let EventFormFunc = props => {
                     </Link>
                 </div>
             </form>
+            {
+                    props.formSubmited
+                        ?
+                        <div className='form-fade-loader'>
+                        <FadeLoader 
+                            className={override}
+                            color={'#936FDB'} />
+                        </div>    
+                        :
+                        null
+                }
         </div>
     )
 }
@@ -163,7 +195,9 @@ let EventFormFunc = props => {
 // }
 function mapStateToProps(state) {
     return {
-        initialValues: state.initialValues
+        initialValues: state.initialValues,
+        formSubmited: state.reducer.formSubmited,
+        pendingRequest: state.reducer.pendingRequest
     }
 }
 
@@ -182,6 +216,6 @@ let formbaby = reduxForm({
     validate
     })(EventFormFunc)
     
-let connectedForm = connect(mapStateToProps, { createEvent })(formbaby)
+let connectedForm = connect(mapStateToProps, { createEvent, formSubmit, resetFormSubmit })(formbaby)
 
 export default connectedForm

@@ -90,7 +90,7 @@ class StackedBarChart extends Component {
         // console.log(transformedData)
         if (this.props.activeChart === 'stacked_bar'){
         return (
-            transformedData.length
+            transformedData.length && !this.props.pendingRequest
                 ?
                     // {/* <p className='bar-chart-title'> Incidents Over Time Grouped by Contributing Factors </p> */}
                     // {/* {this.eventData()} */}
@@ -142,7 +142,8 @@ class StackedBarChart extends Component {
 function mapStateToProps(state) {
     return {
         events: state.reducer.events,
-        activeChart: state.reducer.activeChart
+        activeChart: state.reducer.activeChart,
+        pendingRequest: state.reducer.pendingRequest
     }
 }
 

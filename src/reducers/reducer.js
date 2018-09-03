@@ -2,7 +2,7 @@
 import { GET_EVENTS, CREATE_EVENT, DELETE_EVENT, EDIT_EVENT, GET_EVENT_BY_MONTHS } from '../Actions/api_index'
 import { FETCH_WEATHER, FETCH_DARK_SKY } from '../Actions/weather_fetcher'
 import { GET_USER, LOGOUT_USER } from '../Actions/authentication'
-import { FILTER_EVENTS, CHART_SELECT } from '../Actions/event_handlers'
+import { FILTER_EVENTS, CHART_SELECT, FORM_SUBMIT, RESET_FORM_SUBMIT } from '../Actions/event_handlers'
 
 let initialState = {
     //Events truth is an array that contains all of the events
@@ -20,7 +20,8 @@ let initialState = {
     //active chart is used for conditional rendering of the charts in the dashboard
     activeChart: 'stacked_bar',
     //This handles the loading state of my requests to conditionally render a spinner in each component that depends on this data
-    pendingRequest: true
+    pendingRequest: true,
+    formSubmited: ''
 }
 
 const FULFILLED = '_FULFILLED'
@@ -186,5 +187,12 @@ export default function reducer(state = initialState, action) {
         // Chart selection
         case CHART_SELECT:
                 return {...state, activeChart: action.payload}
+
+        //Form submit for loading
+        case FORM_SUBMIT:
+                return {...state, formSubmited:action.payload }
+        //RESET submit for loading
+        case RESET_FORM_SUBMIT:
+                return {...state, formSubmited:action.payload }
     }
 }

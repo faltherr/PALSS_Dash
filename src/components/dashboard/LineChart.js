@@ -109,7 +109,7 @@ class LineDemo extends Component {
         console.log(this.props.activeChart)
         if (this.props.activeChart === 'line_chart') {
             return (
-                this.props.pendingRequest || !this.props.events
+                this.props.pendingRequest && !this.props.events
                 ?
                 <FadeLoader 
                 className={override}

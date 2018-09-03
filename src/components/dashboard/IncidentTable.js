@@ -17,7 +17,7 @@ class IncidentTable extends Component {
         this.props.getEvents()
     }
 
-    componentDidUpdate(prevState){
+    componentDidUpdate(prevProps, prevState){
         if(this.state.setTableOption !== prevState.setTableOption){
             if(this.props.pendingRequest){
                   this.setState({

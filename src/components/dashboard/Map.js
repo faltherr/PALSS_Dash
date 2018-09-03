@@ -147,7 +147,7 @@ class SimpleMap extends Component {
 
                 </Map>
                 {
-                    !this.props.events.length
+                    !this.props.events.length || this.props.pendingRequest
                         ?
                         <div className='map-fade-loader'>
                         <FadeLoader 
@@ -166,7 +166,8 @@ class SimpleMap extends Component {
 function mapStateToProps(state) {
     return {
         events: state.reducer.events,
-        user_data: state.reducer.user_data
+        user_data: state.reducer.user_data,
+        pendingRequest: state.reducer.pendingRequest
     }
 }
 
