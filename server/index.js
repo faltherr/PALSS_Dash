@@ -3,6 +3,7 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 const massive = require('massive')
 const path = require('path')
+var cors = require('cors')
 require('dotenv').config()
 
 // Controllers
@@ -10,6 +11,8 @@ const IC = require('./controllers/controller')
 const AuthCtrl = require('./controllers/auth_controller')
 
 const app = express()
+
+app.use(cors());
 
 //Bring variables off of process.env
 const { SERVER_PORT, CONNECTION_STRING } = process.env

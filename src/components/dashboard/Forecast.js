@@ -9,6 +9,7 @@ class WeatherForecast extends Component {
         this.props.fetchWeather()
         this.props.fetchDarkSky()
         // console.log(this.props.fetchWeather())
+        console.log(this.props.fetchDarkSky())
     }
 
     precipProb = () => {
@@ -49,7 +50,7 @@ class WeatherForecast extends Component {
             )
         }
     } else {
-        return <p className='dark-sky-error-text'> Trouble connecting to the Dark Sky API </p>
+        return <p className='dark-sky-error-text'> Trouble connecting to the Dark Sky API... </p>
     }
     }
 

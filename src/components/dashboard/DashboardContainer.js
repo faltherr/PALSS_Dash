@@ -157,7 +157,7 @@ class DashboardContainer extends Component {
                         <Link to='/About'> <h4 className="header-link-text"> About </h4> </Link>
                     </div>
                     <div className='forecast-container'>
-                        {/* <WeatherForecast /> */}
+                        <WeatherForecast />
                     </div>
                     <div className='dashboard-button-container'>
                         {
