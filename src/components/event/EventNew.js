@@ -180,22 +180,23 @@ let EventFormFunc = props => {
 
                 <div className='new-form-button-container'>
                     <button type="submit" className="btn btn-primary">Submit</button>
+                    {
+                    props.formSubmited
+                        ?
+                        <div className='event-form-fade-loader'>
+                        <FadeLoader 
+                            className={override}
+                            color={'#000000'} />
+                        </div>    
+                        :
+                        null
+                }
                     <Link to='/Dashboard'>
                         <button className='btn btn-default'> Cancel </button>
                     </Link>
                 </div>
             </form>
-            {
-                    props.formSubmited
-                        ?
-                        <div className='form-fade-loader'>
-                        <FadeLoader 
-                            className={override}
-                            color={'#936FDB'} />
-                        </div>    
-                        :
-                        null
-                }
+
         </div>
     )
 }

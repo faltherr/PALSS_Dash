@@ -35,10 +35,10 @@ class LandingPage extends Component {
                 </div>
                 <div className="landing-page-button-container">
                     <Link to ='/Dashboard'>
-                    <button class="btn btn-light" > Dashboard </button>
+                    <button className="btn btn-light" > Dashboard </button>
                     </Link>
                     <Link to ='/'>
-                    <button class="btn btn-light" onClick={this.login}> Login </button>
+                    <button className="btn btn-light" onClick={this.login}> Login </button>
                     </Link>
                 </div>
             </div>

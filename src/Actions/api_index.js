@@ -59,9 +59,8 @@ export function editEvent (id, props){
 
 // Expand or shrink events array by user time input
 
-export function getEventsByTime(months, label) {
+export function getEventsByTime(months) {
     console.log('MONTHSSSSSSSS', months)
-    console.log('LABEL!!!!!!', label)
     const url =  API_root + `incidents/?months=${encodeURI(months)}`
     const request = axios.get(url)
     return{

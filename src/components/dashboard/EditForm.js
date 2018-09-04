@@ -9,23 +9,21 @@ import { uniqueFactorsArr, uniqueJobsArr, uniqueLocationsArr } from './UniqueDat
 
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
     return (
-    <div>
-      <label>{label}</label>
-      <div>
-        <input {...input} placeholder={label} type={type}/>
-        {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+    <div className='new-form-input-warning-wrapper'>
+      <div className='form-input-container'>
+        <input {...input} placeholder={label} type={type} className='new-form-input-field'/>
+        {touched && ((error && <span className='error-message-input'> <i class="fas fa-exclamation-circle"></i> {error}</span>) || (warning && <span>{warning}</span>))}
       </div>
     </div>
   )}
 
-const renderSelectField = ({ input, label, type, meta: { touched, error }, children }) => (
-    <div>
-      <label>{label}</label>
-      <div>
-        <select {...input}>
+  const renderSelectField = ({ input, label, type, meta: { touched, error }, children }) => (
+    <div className='new-form-input-warning-wrapper'>
+      <div className='form-select-container'>
+        <select {...input} className='new-form-select-field'>
           {children}
         </select>
-        {touched && error && <span>{error}</span>}
+        {touched && error && <span className='error-message-select'><i class="fas fa-exclamation-circle"></i>{error}</span>}
       </div>
     </div>
   )
@@ -91,10 +89,10 @@ class EditEventFormFunc extends Component {
 
 
     onSubmit = (formProps, id) => {
-        console.log('Events', this.props)
+        // console.log('Events', this.props)
 
-        console.log("This is my payload", formProps)
-        console.log('Does ID exist', this.props.id)
+        // console.log("This is my payload", formProps)
+        // console.log('Does ID exist', this.props.id)
         // this.props.signup(formProps)
 
         this.props.editEvent(this.props.id,formProps)

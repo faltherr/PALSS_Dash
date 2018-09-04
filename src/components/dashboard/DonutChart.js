@@ -27,7 +27,35 @@ class DonutChart extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidMount(){
+        const { events } = this.props
+        if (events.length) {
+            //To add on OR this.state.prevtype doe not equal the prevType
+            // console.log("Events in donut chart", events)
+            // console.log(this.props.eventsFiltered)
+
+            var factorSums = d3.nest()
+                .key(function(d) { return d.factors1; })
+                .rollup(function(v) { return v.length; })
+                .entries(events);
+            // console.log(JSON.stringify(factorSums));
+
+            const DonutChartData = factorSums.map(factor => {
+                let data = {
+                    name: factor.key,
+                    quantity: factor.value
+                }
+                return data
+            })
+            // console.log('DonutChartData', DonutChartData)
+            this.setState({
+                transformedData: DonutChartData
+            })
+            // console.log('Is data returned?', this.state.transformedData)
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
         // console.log(colors)
         const { events } = this.props
         if (events.length !== prevProps.events.length) {
@@ -77,7 +105,7 @@ class DonutChart extends Component {
                             markerSize={6}
                             marginRatio={1.8}
                             width={300}
-                            height={200}
+                            height={150}
                             numberFormat={'01d'}
                             />
                 </div>

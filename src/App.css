@@ -534,10 +534,10 @@ hr {
 }
 
 
-.britechart donut-chart{
+/* .britechart donut-chart{
   height: 200px;
   width: 200px;
-}
+} */
 
 
 /* This div wraps seats the map container within the map-graph-wrapper flexbox */
@@ -770,6 +770,14 @@ hr {
   border-width: 1px;
   border-style: solid;
   border-color: #D2D2D2;
+}
+
+.event-form-fade-loader{
+    position: absolute;
+    vertical-align: middle;
+    z-index: 5;
+    top: 40%;
+    left: 45%;
 }
 
 /* Form errors */

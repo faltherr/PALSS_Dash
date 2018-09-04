@@ -24,6 +24,69 @@ class StackedBarChart extends Component {
         }
     }
 
+    // This componenDidMount enables me to recalculate the data for the charts when a new incident has been entered
+
+    componentDidMount(){
+        const { events } = this.props
+        if (events.length) {
+            // console.log("enevts update", events)
+
+            let eventsClone = _.clone(events)
+            let monthYear = eventsClone.map(data => {
+                let new_date = data['date'].split('/')
+                new_date.splice(1, 1)
+                data.month = +new_date[0]
+                data.year = +new_date[1]
+                data['new_date'] = new_date.join('/')
+                return data
+            })
+            let sorted = _.sortBy(monthYear, ['year', 'month'])
+            sorted = _.groupBy(sorted, o => o['new_date'])
+
+            // console.log('Events sorted', sorted)
+            // console.log('Stacked Bar component', events)
+
+            let data3 = []
+            // var newStateArray = this.state.transformedData.slice();
+
+            for (let prop in sorted) {
+                let object = {
+                    Date: prop,
+                    'Repetitive Motion/cumulative Trauma': 0,
+                    'Slip/Trip/Fall': 0,
+                    'Voluntary Motions': 0,
+                    'Contact': 0,
+                    'Struck Against/By': 0,
+                    'Lift/Push/Pull': 0,
+                    'Caught In, On, Under Or Between': 0,
+                    'Bite/sting': 0,
+                    'Allergic/bodily Reaction': 0,
+                    'Exposure': 0,
+                    'Training/Qualification': 0,
+                    'Involuntary Motions': 0,
+                    'Motor Vehicle Accident': 0,
+                    'Hearing Loss/STS': 0
+                }
+                sorted[prop].forEach(o => {
+                    if (o.factors1) {
+                        if (object[o.factors1]) {
+                            object[o.factors1] += 1
+                        } else {
+                            object[o.factors1] = 1
+                        }
+                    }
+                })
+                data3.push(object)
+                console.log('data3', data3)
+                if (data3){
+                this.setState({
+                    transformedData: data3
+                })
+            }
+            }
+        }
+    }
+
     componentDidUpdate(prevProps) {
         const { events } = this.props
         if (events.length !== prevProps.events.length ) {
@@ -75,10 +138,12 @@ class StackedBarChart extends Component {
                     }
                 })
                 data3.push(object)
-                // console.log(data3)
+                // console.log('data3', data3)
+                if (data3){
                 this.setState({
                     transformedData: data3
                 })
+            }
             }
         }
     }
@@ -88,9 +153,12 @@ class StackedBarChart extends Component {
         let { transformedData } = this.state
         // console.log(finishedCalculations)
         // console.log(transformedData)
+        // console.log('transformed data', transformedData)
+        // console.log('Events length', this.props.events.length)
+
         if (this.props.activeChart === 'stacked_bar'){
         return (
-            transformedData.length && !this.props.pendingRequest
+            transformedData.length && !this.props.pendingRequest && this.props.events.length
                 ?
                     // {/* <p className='bar-chart-title'> Incidents Over Time Grouped by Contributing Factors </p> */}
                     // {/* {this.eventData()} */}

@@ -37,7 +37,7 @@ class DashboardContainer extends Component {
     }
 
     handleChangeTime = (e) =>{
-        this.props.getEventsByTime(e.value, e.label)
+        this.props.getEventsByTime(e.value)
         let obj = {value: e.value, label : e.label}
         this.setState({
             timeFilterString: obj
@@ -180,7 +180,9 @@ class DashboardContainer extends Component {
                             //If the user is not logged in we do not render a logout button
                             this.props.user_data
                                 ?
+                                <Link to='/'>
                                 <button onClick={logout} className='btn btn-default'> Logout </button>
+                                </Link>
                                 :
                                 null
                         }

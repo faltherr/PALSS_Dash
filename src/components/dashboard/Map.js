@@ -46,9 +46,9 @@ class SimpleMap extends Component {
         this.setState({ [`open${type}`]: false });
     };
 
-    closeAndDelete = (id, props) => {
-        this.onCloseModal();
-        this.props.deleteEvent(id, props)
+    closeAndDelete = (id) => {
+        this.setState({opendelete:false})
+        this.props.deleteEvent(id)
     }
 
     closeAndEdit = (id, props) => {
@@ -67,7 +67,7 @@ class SimpleMap extends Component {
     createMarkers(events) {
 
         const { openedit, opendelete } = this.state
-        // console.log('Events in mapjs', events)
+        console.log('modal type delete state', this.state.opendelete)
         return events.map(event => {
             let { latitude: lat, longitude: lon, id, date, tabuilding, jobtitle, factors1, bodyparts, description } = event
             return lat && lon &&
@@ -96,7 +96,8 @@ class SimpleMap extends Component {
 
                                         <button onClick={() => this.onOpenModal('delete')} className='btn btn-danger'>Delete</button>
                                         <Modal open={opendelete} onClose={() => this.onCloseModal('delete')} center>
-                                            <h2>Are you sure you want to delete this incident?</h2>
+                                                <br/>
+                                                <h2>Are you sure you want to delete this incident?</h2>
                                             <button onClick={() => { this.closeAndDelete(id) }} className='btn btn-danger' > Confirm and delete </button>
                                         </Modal>
                                     </div>
@@ -123,6 +124,16 @@ class SimpleMap extends Component {
             })
         }
     }
+
+    // Trying to better handle the open modal
+    // componentDidUpdate(prevState){
+    //     if(this.state.openedit !== prevState.openedit && this.state.opendelete !== prevState.opendelete){
+    //     this.setState({
+    //         openedit: false,
+    //         opendelete: false
+    //     })
+    // }
+    // }
 
     render() {
 

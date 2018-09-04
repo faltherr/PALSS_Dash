@@ -90,6 +90,7 @@ class LineDemo extends Component {
         //This specifies that we want the x positions to use the specified scale
         this.lineGenerator.x(d => this.xScale(d.date))
         this.lineGenerator.y(d => this.yScale(d.counts))
+        this.lineGenerator.curve(d3.curveBasis)
 
         // This generates the string we will pass into the svg path
         const counts = this.lineGenerator(LineChartData)
