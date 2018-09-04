@@ -17,8 +17,8 @@ const override = css`
     border-color: red;
 `;
 
-const width = 550;
-const height = 380;
+const width = 680;
+const height = 400;
 const margin = { top: 20, right: 5, bottom: 20, left: 35 };
 
 class LineDemo extends Component {
