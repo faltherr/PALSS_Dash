@@ -28,7 +28,7 @@ class LandingPage extends Component {
                     <div>
                         <h1 className="landing-page-app-title"> PALSS Dash </h1>
                     </div>
-                    <hr />
+                    <hr className='landing-hr'/>
                     <div>
                         <h4 className="landing-page-acronym"> Predictive Analytics for Laboratory Safety and Security </h4>
                     </div>
