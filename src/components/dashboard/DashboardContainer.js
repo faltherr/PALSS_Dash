@@ -246,7 +246,7 @@ class DashboardContainer extends Component {
                     </div>
 
                     <div className='event-counter' >
-                        <p className='donut-chart-label'> Factors Involved in Incidents </p>
+                        <p className='donut-chart-label'> Type of Incidents </p>
                         <DonutChart />
                     </div>
 
@@ -259,11 +259,11 @@ class DashboardContainer extends Component {
 
                     <div className='time-series-graph'>
                         <select className='chart-selector' onChange= {this.changeChart}>
-                            <option value='stacked_bar'>Incidents Over Time Grouped by Contributing Factors</option>
+                            <option value='stacked_bar'>Incidents Over Time Grouped by Type</option>
                             <option value='line_chart'>Incidents Over Time</option>
                         </select>
                             <StackedBarChart />
-                            <LineChart events = {this.props.eventsTruth} />
+                            <LineChart events = {this.props.events} />
                         </div>
                 </div>
 
@@ -278,6 +278,7 @@ function mapStateToProps(state) {
         user_data: state.reducer.user_data,
         eventsTruth: state.reducer.eventsTruth,
         pendingRequest: state.reducer.pendingRequest,
+        events: state.reducer.events
     }
 }
 

@@ -21,6 +21,12 @@ const width = 680;
 const height = 400;
 const margin = { top: 20, right: 5, bottom: 20, left: 35 };
 
+// var areaGradient = svg.append("defs")
+// .append("linearGradient")
+// .attr("id","areaGradient")
+// .attr("x1", "0%").attr("y1", "0%")
+// .attr("x2", "0%").attr("y2", "100%");
+
 class LineDemo extends Component {
     constructor() {
         super()
@@ -42,10 +48,16 @@ class LineDemo extends Component {
     //Translates the data into svg path commands
     lineGenerator = d3.line()
 
+    componentDidMount(){
+        if (this.svg){
+
+            this.calculateData()
+        }
+    }
 
     // static getDerivedStateFromProps(nextProps, prevState) {
-    componentWillReceiveProps(nextProps) {
-        const { events } = nextProps;
+    calculateData() {
+        const { events } = this.props;
 
         // console.log("Events from next props", events)
         if (!events) return
@@ -100,9 +112,13 @@ class LineDemo extends Component {
     }
 
     // This is called when the component finishes its initial calculations to draw the axis
-    componentDidUpdate() {
+    componentDidUpdate(nextProps, nextState) {
         d3.select(this.refs.xAxis).call(this.xAxis)
         d3.select(this.refs.yAxis).call(this.yAxis)
+        if (this.props.events !== nextProps.events){
+        this.calculateData()
+        }
+
     }
 
     render() {
@@ -110,13 +126,13 @@ class LineDemo extends Component {
         console.log(this.props.activeChart)
         if (this.props.activeChart === 'line_chart') {
             return (
-                this.props.pendingRequest && !this.props.events
+                this.props.pendingRequest || !this.props.events.length
                 ?
                 <FadeLoader 
                 className={override}
                 color={'#656665'} />
                 :
-                <svg width={width} height={height} >
+                <svg id="svg" width={width} height={height} >
                     <path d={this.state.line} fill='none' stroke={'#7C5AFF'} />
                     <g className='time-series-axis'>
                         <g ref='xAxis' transform={`translate(0, ${height - margin.bottom})`} />
